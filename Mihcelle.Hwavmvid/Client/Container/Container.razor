@@ -1,0 +1,42 @@
+﻿@inherits Containerbase
+
+@using Mihcelle.Hwavmvid.Client.Modules
+
+@if (this.applicationprovider?._contextcontainer != null && this.applicationprovider?._contextcontainercolumns != null)
+{
+
+    <div class="@this.applicationprovider._contextcontainer.Containertype">
+
+        <div class="row align-items-center">
+
+            @foreach (var column in this.applicationprovider._contextcontainercolumns)
+            {
+
+                <div class="position-relative @column.Columnwidth" style="width: 100%; min-height: 140px; border: 2px dotted black">
+
+                    @foreach (var module in column.Modules)
+                    {
+
+                        Type componenttype = Type.GetType(module.Assemblytype);
+                        Type modulesettingscomponenttype = Type.GetType(module.Settingstype);
+
+                        <Modulebasecomponent Moduleid="@module.Id" Componenttype="@componenttype" Containertype="@this.applicationprovider._contextcontainer.Containertype" Componentsettingstype="@modulesettingscomponenttype"></Modulebasecomponent>
+
+                    }
+
+                    <div id="@column.Id" class="packagedropzone packagedropzone-@(column.Id.ToString())" />
+
+                </div>
+
+            }
+
+        </div>
+
+    </div>
+
+}
+
+
+@code {
+
+}
