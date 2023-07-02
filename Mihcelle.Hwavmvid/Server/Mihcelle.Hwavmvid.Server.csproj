@@ -5,6 +5,9 @@
 	<Configurations>Debug;Release</Configurations>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+	<authors>hwavmvid_tunstall</authors>
+	<Company>hwavmvid technologies</Company>
+	<copyright>hwavmvid corp.</copyright>
   </PropertyGroup>
 
   <ItemGroup>

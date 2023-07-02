@@ -1,9 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
+	<TargetFramework>net7.0</TargetFramework>
+	<Nullable>enable</Nullable>
+	<ImplicitUsings>enable</ImplicitUsings>
+	<authors>hwavmvid_tunstall</authors>
+	<Company>hwavmvid technologies</Company>
+	<copyright>hwavmvid corp.</copyright>
   </PropertyGroup>
 
 	<ItemGroup>
