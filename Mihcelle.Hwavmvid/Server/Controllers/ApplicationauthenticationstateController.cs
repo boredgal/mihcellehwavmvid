@@ -30,7 +30,7 @@ namespace Mihcelle.Hwavmvid.Server.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<List<KeyValuePair<string, string>>> Get()
+        public async Task<List<KeyValuePair<string, string>>?> Get()
         {
 
             if (User.Identity != null && !string.IsNullOrEmpty(User.Identity.Name) && User.Identity.IsAuthenticated)
@@ -51,6 +51,7 @@ namespace Mihcelle.Hwavmvid.Server.Controllers
                     return claimslist;                    
                 }
             }
+
             return null;
         }
 

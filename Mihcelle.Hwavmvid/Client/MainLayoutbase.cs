@@ -52,6 +52,21 @@ namespace Mihcelle.Hwavmvid.Client
         {
             if (firstRender)
             {
+
+                // implemented in program.cs
+                /*if (framework_installed == false)
+                {
+
+                    // default auth cookie name
+                    // .AspNetCore.Identity.Application
+
+                    await this.Cookiesprovider.Initcookiesprovider();
+                    var auth_cookie_name = Mihcelle.Hwavmvid.Shared.Constants.Authentication.Authcookiename;
+                    var cookievalue = await this.Cookiesprovider.Getcookie(auth_cookie_name);
+                    await this.Cookiesprovider.Setcookie(auth_cookie_name, cookievalue, -1);
+                }
+                */
+
                 await this.applicationprovider.Establishapplicationconnection();
             }
 
