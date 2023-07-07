@@ -8,7 +8,7 @@
         public const string UploadImagesPath = "modu/mhcc/images/uploads";
         public const string UploadVideosPath = "modu/mhcc/videos";
         public const string ApplicationTempPath = "modu/mhcc/temp";
-        public const int FrontPageItems = 24;
+        public const int FrontPageItems = 12;
         public const int UserlistItems = 16;
         public const int ArchiveItems = 32;
         public const int InvitationItems = 12;

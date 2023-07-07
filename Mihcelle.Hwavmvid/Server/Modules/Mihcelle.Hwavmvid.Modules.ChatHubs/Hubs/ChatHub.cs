@@ -1463,7 +1463,7 @@ namespace Mihcelle.Hwavmvid.Modules.ChatHubs.Hubs
 
             try
             {
-                for(var i = 1; i <= 200; i++)
+                for(var i = 1; i <= 24; i++)
                 {
                     var item = new ChatHubRoom();
                     item.ModuleId = moduleid;
