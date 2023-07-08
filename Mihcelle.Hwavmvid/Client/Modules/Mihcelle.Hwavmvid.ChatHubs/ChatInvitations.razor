@@ -19,7 +19,7 @@
 
     var getItemsApiUrl = "api/chathub/GetInvitationItems";
 
-    <h5><span class="oi oi-list"></span> All Invitations <span class="badge bg-success">NEW</span></h5>
+    <h5><span>☰</span> All Invitations <span class="badge bg-success">NEW</span></h5>
 
     <PagerComponent ApiQueryId="@this.ChatHubService.ModuleId" HubConnectionId="@ChatHubService.Connection.ConnectionId" ElementId="WasmHwavmvid.PagerInvitationItems" GetItemsApiUrl="@getItemsApiUrl" ContextPageItems="@ChatHubService.Invitations" Context="context" ItemsPerPage="@ChatHubConstants.InvitationItems" TItemGeneric="@ChatHubInvitation" Class="py-sm-3" Scrolling="@false">
         <PagerItem>

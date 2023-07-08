@@ -193,10 +193,10 @@
 
             <input type="text" class="form-control" @bind-value="@room.MessageInput" @onkeyup="async (e) => await KeyDown(e, room)" placeholder="Send your msg here or type /help for commands" />
 
-            <button type="button" class="btn btn-primary mr-0 mr-sm-4" @onclick="async () => await SendMessage_Clicked(room.MessageInput, room)"><span class="oi oi-envelope-open"></span></button>
-            <button type="button" class="btn btn-info d-none d-sm-inline-block" @onclick="() => ChatHubService.ClearHistory(room.Id)"><span class="oi oi-trash"></span></button>
-            <button type="button" class="btn btn-dark d-inline-block d-xl-none" @onclick="() => ChatHubService.ToggleUserlist(room.Id)"><span class="oi oi-list"></span></button>
-            <button type="button" class="btn btn-danger d-none d-sm-inline-block" @onclick="async () => await ChatHubService.DisconnectAsync()"><span class="oi oi-power-standby"></span></button>
+            <button type="button" class="btn btn-primary mr-0 mr-sm-4" @onclick="async () => await SendMessage_Clicked(room.MessageInput, room)"><span>✉</span></button>
+            <button type="button" class="btn btn-info d-none d-sm-inline-block" @onclick="() => ChatHubService.ClearHistory(room.Id)"><span>♲</span></button>
+            <button type="button" class="btn btn-dark d-inline-block d-xl-none" @onclick="() => ChatHubService.ToggleUserlist(room.Id)"><span>☰</span></button>
+            <button type="button" class="btn btn-danger d-none d-sm-inline-block" @onclick="async () => await ChatHubService.DisconnectAsync()"><span>⏸︎</span></button>
 
         </div>
 

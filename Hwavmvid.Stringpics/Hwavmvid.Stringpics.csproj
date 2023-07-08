@@ -17,4 +17,8 @@
     
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Hwavmvid.Motiondetection\Hwavmvid.Motiondetection.csproj" />
+  </ItemGroup>
+
 </Project>

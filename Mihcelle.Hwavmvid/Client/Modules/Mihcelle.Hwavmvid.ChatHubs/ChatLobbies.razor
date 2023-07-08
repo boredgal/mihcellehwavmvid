@@ -62,13 +62,13 @@
 
                                     @if (context.Broadcasting)
                                     {
-                                        <span class="oi oi-media-record text-danger "></span><span> Broadcasting | </span>
+                                        <span class="text-danger">🔴</span><span> Broadcasting | </span>
                                     }
-                                    @context.Creator.DisplayName <span class="oi oi-check"></span>
+                                    @context.Creator.DisplayName <span>✅</span>
 
                                 </small>
                                 <br />
-                                <small class="text-muted">Posted on @context.CreatedOn.ToShortDateString() <span class="oi oi-clock"></span></small>
+                                <small class="text-muted">Posted on @context.CreatedOn.ToShortDateString() <span>🕑</span></small>
                             </div>
                         </div>
                     </div>

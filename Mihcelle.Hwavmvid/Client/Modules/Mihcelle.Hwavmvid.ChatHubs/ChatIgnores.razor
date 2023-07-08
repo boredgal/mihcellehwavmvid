@@ -20,7 +20,7 @@
 
     var getItemsApiUrl = "api/chathub/GetIgnoreItems";
 
-    <h5><span class="oi oi-shield"></span> Ignoliste <span class="badge bg-success">NEW</span></h5>
+    <h5><span>⛨</span> Ignoliste <span class="badge bg-success">NEW</span></h5>
 
     <PagerComponent ApiQueryId="@this.ChatHubService.ModuleId" HubConnectionId="@this.ChatHubService.Connection.ConnectionId" ElementId="WasmHwavmvid.PagerIgnoreItems" GetItemsApiUrl="@getItemsApiUrl" ContextPageItems="@this.ChatHubService.IgnoredUsers" Context="context" ItemsPerPage="@ChatHubConstants.IgnoreItems" TItemGeneric="@ChatHubIgnore" Class="py-sm-3" Scrolling="@false">
         <PagerItem>

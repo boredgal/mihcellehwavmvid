@@ -61,11 +61,11 @@
         }
 
         <div class="position-absolute" style="z-index: 1; top: 12px; left: 10px;">
-            <button type="button" class="text-danger p-1 badge bg-white d-inline border border-white">@Viewers <span class="oi oi-camera-slr"></span></button>
+            <button type="button" class="text-danger p-1 badge bg-white d-inline border border-white">@Viewers <span>👁</span></button>
             @if (!IsVideoOverlay)
             {
-                <button type="button" class="text-danger p-1 badge bg-white d-inline border border-white" @onclick="async () => await VideoService.TakeSnapshot(Id1, Id2, VideoSnapshotActivatorType.LocalUser)"><span class="oi oi-image"></span><span class="video-item-ellipsis"></span></button>
-                <button type="button" class="text-danger p-1 badge bg-white d-inline border border-white" @onclick="async () => await VideoService.StopVideoChat(Id1, Id2)"><span class="oi oi-media-pause"></span><span class="video-item-ellipsis"> [loc.]</span></button>
+                <button type="button" class="text-danger p-1 badge bg-white d-inline border border-white" @onclick="async () => await VideoService.TakeSnapshot(Id1, Id2, VideoSnapshotActivatorType.LocalUser)"><span>img</span><span class="video-item-ellipsis"></span></button>
+                <button type="button" class="text-danger p-1 badge bg-white d-inline border border-white" @onclick="async () => await VideoService.StopVideoChat(Id1, Id2)"><span>⏸</span><span class="video-item-ellipsis"> [loc.]</span></button>
             }
         </div>
 
@@ -122,11 +122,11 @@
     {
 
         <div class="position-absolute" style="z-index: 1; top: 12px; left: 10px;">
-            <button type="button" class="text-danger p-1 badge bg-white d-inline border border-white">@Viewers <span class="oi oi-camera-slr"></span></button>
+            <button type="button" class="text-danger p-1 badge bg-white d-inline border border-white">@Viewers <span>📷</span></button>
             @if (!IsVideoOverlay)
             {
-                <button type="button" class="text-danger p-1 badge bg-white d-inline border border-white" @onclick="async () => await VideoService.TakeSnapshot(Id1, Id2, VideoSnapshotActivatorType.RemoteUser)"><span class="oi oi-image"></span><span class="video-item-ellipsis"></span></button>
-                <button type="button" class="text-danger p-1 badge bg-white d-inline border border-white" @onclick="async () => await VideoService.StopVideoChat(Id1, Id2)"><span class="oi oi-media-pause"></span><span class="video-item-ellipsis"> [rem.]</span></button>
+                <button type="button" class="text-danger p-1 badge bg-white d-inline border border-white" @onclick="async () => await VideoService.TakeSnapshot(Id1, Id2, VideoSnapshotActivatorType.RemoteUser)"><span>img</span><span class="video-item-ellipsis"></span></button>
+                <button type="button" class="text-danger p-1 badge bg-white d-inline border border-white" @onclick="async () => await VideoService.StopVideoChat(Id1, Id2)"><span>⏸</span><span class="video-item-ellipsis"> [rem.]</span></button>
             }
         </div>
 
@@ -137,11 +137,11 @@
 
                     @if (Status == VideoStatusType.Live)
                     {
-                        <span class="oi oi-media-play text-danger"></span> @Name
+                        <span class="text-danger">▶</span> @Name
                     }
                     @if (Status == VideoStatusType.Offline)
                     {
-                        <span class="oi oi-media-pause text-info"></span> @Name
+                        <span class="text-info">⏸︎</span> @Name
                     }
 
                 </button>

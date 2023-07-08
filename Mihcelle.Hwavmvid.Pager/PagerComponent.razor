@@ -37,7 +37,7 @@
         @if (!this.Loading && ContextPage != PagesTotal && PagesTotal != 0)
         {
             <div class="w-100 text-center p-2 border border-warning bg-light text-dark" @onclick="@(async () => await LoadMore_Clicked())" style="background-color: rgba(255,255,255,0.7); cursor: pointer;">
-                <div><span class="oi oi-caret-bottom" style="font-size: 1.4rem"></span></div>
+                <div><span style="font-size: 1.4rem">▼</span></div>
                 <div><small>Load more</small></div>
             </div>
         }

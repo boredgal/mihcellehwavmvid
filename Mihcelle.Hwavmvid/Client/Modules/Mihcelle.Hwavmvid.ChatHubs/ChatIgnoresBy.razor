@@ -19,7 +19,7 @@
 
     var getItemsApiUrl = "api/chathub/GetIgnoredByItems";
 
-    <h5><span class="oi oi-bug"></span> Ignored by users list <span class="badge bg-success">NEW</span></h5>
+    <h5><span>✚</span> Ignored by users list <span class="badge bg-success">NEW</span></h5>
 
     <PagerComponent ApiQueryId="@this.ChatHubService.ModuleId" HubConnectionId="@ChatHubService.Connection.ConnectionId" ElementId="WasmHwavmvid.PagerIgnoredByItems" GetItemsApiUrl="@getItemsApiUrl" ContextPageItems="@ChatHubService.IgnoredByUsers" Context="context" ItemsPerPage="@ChatHubConstants.IgnoredByItems" TItemGeneric="@ChatHubIgnoredBy" Class="py-sm-3" Scrolling="@false">
         <PagerItem>

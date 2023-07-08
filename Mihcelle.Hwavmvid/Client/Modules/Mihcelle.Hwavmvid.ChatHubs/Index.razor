@@ -236,7 +236,7 @@
                                 <span class="badge bg-primary @(context.Item.UnreadMessages != 0 ? "" : "d-none")">@context.Item.UnreadMessages</span>
 
                                 <span class="position-absolute" @onclick="async () => await LeaveRoom_Clicked(context.Item.Id, this.ChatHubService.ModuleId)" style="top: 0px; right: 0px;">
-                                    <span class="oi oi-circle-x"></span>
+                                    <span>✕</span>
                                 </span>
 
                             </TabItemContainer>

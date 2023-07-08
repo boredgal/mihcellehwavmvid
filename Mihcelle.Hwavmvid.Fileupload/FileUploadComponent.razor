@@ -25,7 +25,7 @@
     <div id="@DropzoneElementId" class="blazor-file-upload-dropzone d-flex align-items-center justify-content-center px-3">
 
         <span class="text-white bg-primary p-sm-2">
-            <small class="oi oi-data-transfer-download"></small> <small>drag and drop files here</small>
+            <small>▼</small> <small>drag and drop files here</small>
         </span>
 
     </div>
@@ -46,7 +46,7 @@
             <div class="position-relative">
                 <img class="rounded m-1" src="@dicitem.Value.Base64ImageUrl" height="72" />
                 <button type="button" class="btn btn-sm btn-link bg-dark text-white position-absolute" style="top: 5px; right: 5px; text-shadow: 1px 1px #000;" @onclick="() => RemoveThumbnail_Clicked(dicitem.Key)">
-                    <span class="oi oi-x"></span>
+                    <span>X</span>
                 </button>
             </div>
         }

@@ -17,11 +17,11 @@
 
 <div class="w-100 my-3" style="height: @(string.Format("{0}px", UserlistWindowHeight)); overflow: auto;">
 
-    <button type="button" class="btn btn-light input-group-button @(room.ShowUserlist ? "d-block" : "d-none")" @onclick="() => ChatHubService.ToggleUserlist(room.Id)" style="position: relative; float: right;"><span class="oi oi-x"></span></button>
+    <button type="button" class="btn btn-light input-group-button @(room.ShowUserlist ? "d-block" : "d-none")" @onclick="() => ChatHubService.ToggleUserlist(room.Id)" style="position: relative; float: right;"><span>✖</span></button>
 
     <TabContainer>
         <TabItem>
-            <TabTitle><div><span class="oi oi-people"></span></div></TabTitle>
+            <TabTitle><div><span>🌧</span></div></TabTitle>
             <TabContent>
 
                 <div class="p-0">
@@ -33,7 +33,7 @@
             </TabContent>
         </TabItem>
         <TabItem>
-            <TabTitle><div><span class="oi oi-image"></span></div></TabTitle>
+            <TabTitle><div><span>img</span></div></TabTitle>
             <TabContent>
 
                 <div class="px-sm-1 py-3">
@@ -57,7 +57,7 @@
             </TabContent>
         </TabItem>
         <TabItem>
-            <TabTitle><div><span class="oi oi-warning"></span>&nbsp;</div></TabTitle>
+            <TabTitle><div><span>⚠</span>&nbsp;</div></TabTitle>
             <TabContent>
 
                 <div class="px-sm-1 py-3">
@@ -69,7 +69,7 @@
             </TabContent>
         </TabItem>
         <TabItem>
-            <TabTitle><div><span class="oi oi-question-mark"></span>&nbsp;</div></TabTitle>
+            <TabTitle><div><span>W</span>&nbsp;</div></TabTitle>
             <TabContent>
 
                 <div class="px-sm-1 py-3">
@@ -81,7 +81,7 @@
             </TabContent>
         </TabItem>
         <TabItem>
-            <TabTitle><div><span class="oi oi-ban"></span>&nbsp;</div></TabTitle>
+            <TabTitle><div><span>B</span>&nbsp;</div></TabTitle>
             <TabContent>
 
                 <div class="px-sm-1 py-3">
@@ -93,7 +93,7 @@
             </TabContent>
         </TabItem>
         <TabItem>
-            <TabTitle><div><span class="oi oi-key"></span> (@room.WaitingRoomItems.Count())</div></TabTitle>
+            <TabTitle><div><span>?</span> (@room.WaitingRoomItems.Count())</div></TabTitle>
             <TabContent>
 
                 <div class="px-sm-1 py-3">
@@ -108,7 +108,7 @@
                                     <td>@waitingRoomItem.DisplayName</td>
                                     <td>
                                         <button type="button" class="btn btn-sm btn-link" @onclick="() => ChatHubService.RemoveWaitingRoomItem_Clicked(waitingRoomItem)">
-                                            <span class="oi oi-check"></span>
+                                            <span>X</span>
                                         </button>
                                     </td>
                                 </tr>
