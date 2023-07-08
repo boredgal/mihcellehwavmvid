@@ -21,7 +21,7 @@ namespace Mihcelle.Hwavmvid.Modules.ChatHubs.Commands
 
             string targetUserName = args[0];
 
-            ChatHubUser targetUser = await context.ChatHubRepository.GetUserByDisplayNameAsync(targetUserName);
+            ChatHubUser targetUser = await context.ChatHubRepository.GetUserByUserNameAsync(targetUserName);
             if (targetUser == null)
             {
                 await context.ChatHub.SendClientNotification("No user found.", callerContext.RoomId, callerContext.ConnectionId, caller, ChatHubMessageType.System);

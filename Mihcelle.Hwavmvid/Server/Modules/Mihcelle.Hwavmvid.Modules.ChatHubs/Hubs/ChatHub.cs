@@ -169,7 +169,7 @@ namespace Mihcelle.Hwavmvid.Modules.ChatHubs.Hubs
 
             string username = this.CreateUsername(guestname);
             string displayname = this.CreateDisplaynameFromUsername(username);
-            if (await this.chatHubRepository.GetUserByDisplayNameAsync(displayname) != null)
+            if (await this.chatHubRepository.GetUserByUserNameAsync(displayname) != null)
             {
                 throw new HubException("Displayname already in use. Goodbye.");
             }
@@ -192,14 +192,17 @@ namespace Mihcelle.Hwavmvid.Modules.ChatHubs.Hubs
                 LockoutEnabled = true,
             };
 
+
             await this.chatHubRepository.AddUser(chatHubUser);
+            var newguest = await this.chatHubRepository.GetUserByUserNameAsync(chatHubUser.UserName);
+            var newguestclientmodel = newguest.ClientModel();
 
             if (!await this.rolemanager.RoleExistsAsync(Authentication.Anonymousrole))
             {
                 await this.rolemanager.CreateAsync(new IdentityRole(Authentication.Anonymousrole));
             }
 
-            var addtoroleresult = await this.userManager.AddToRoleAsync(chatHubUser, Authentication.Anonymousrole);
+            var addtoroleresult = await this.userManager.AddToRoleAsync(newguest, Authentication.Anonymousrole);
             if (!addtoroleresult.Succeeded)
             {
                 throw new HubException("Failed to add user to role..");
@@ -208,17 +211,17 @@ namespace Mihcelle.Hwavmvid.Modules.ChatHubs.Hubs
             string ip = Context.GetHttpContext().Connection.RemoteIpAddress.ToString();
             string useragent = Context.GetHttpContext().Request.Headers["User-Agent"].ToString();
 
-            ChatHubUser guest = await this.chatHubRepository.GetUserByIdAsync(chatHubUser.Id);
+            await this.chatHubRepository.GetUserByIdAsync(newguest.Id);
             ChatHubConnection ChatHubConnection = new ChatHubConnection()
             {
-                ChatHubUserId = guest.Id,
+                ChatHubUserId = newguest.Id,
                 ConnectionId = Context.ConnectionId,
                 IpAddress = ip,
                 UserAgent = useragent,
                 Status = ChatHubConnectionStatus.Active.ToString(),
-                CreatedBy = guest.UserName,
+                CreatedBy = newguest.UserName,
                 CreatedOn = DateTime.Now,
-                ModifiedBy = guest.UserName,
+                ModifiedBy = newguest.UserName,
                 ModifiedOn = DateTime.Now,
             };
 
@@ -233,11 +236,11 @@ namespace Mihcelle.Hwavmvid.Modules.ChatHubs.Hubs
             {
                 UsernameColor = "#7744aa",
                 MessageColor = "#44aa77",
-                ChatHubUserId = guest.Id,
+                ChatHubUserId = newguestclientmodel.Id,
                 CreatedOn = DateTime.Now,
-                CreatedBy = guest.UserName,
+                CreatedBy = newguestclientmodel.UserName,
                 ModifiedOn = DateTime.Now,
-                ModifiedBy = guest.UserName,
+                ModifiedBy = newguestclientmodel.UserName,
             };
             try
             {
@@ -246,7 +249,7 @@ namespace Mihcelle.Hwavmvid.Modules.ChatHubs.Hubs
             catch (Exception exception) {
                 Console.WriteLine(exception.Message); }
             
-            return guest;
+            return newguest;
         }
         private async Task<ChatHubUser> OnConnectedUser(ChatHubUser chatHubUser)
         {
@@ -382,20 +385,16 @@ namespace Mihcelle.Hwavmvid.Modules.ChatHubs.Hubs
         public async Task Init()
         {
 
-            string moduleId = Context.GetHttpContext().Request.Query["moduleid"];
-            var contextUser = await this.GetChatHubUserAsync();
-
-            var rooms = this.chatHubRepository.GetRoomsByUser(contextUser).Public().Enabled().ToList();
-            rooms.AddRange(this.chatHubRepository.GetRoomsByUser(contextUser).Private().Enabled().ToList());
-
+            var contextUser = await this.GetChatHubUserAsync();            
             if (Context.User.Identity.IsAuthenticated)
             {
+                var rooms = this.chatHubRepository.GetRoomsByUser(contextUser).Public().Enabled().ToList();
+                rooms.AddRange(this.chatHubRepository.GetRoomsByUser(contextUser).Private().Enabled().ToList());
                 rooms.AddRange(this.chatHubRepository.GetRoomsByUser(contextUser).Protected().Enabled().ToList());
-            }
-            
-            foreach (var room in rooms)
-            {
-                await this.EnterChatRoom(room.Id);
+                foreach (var room in rooms)
+                {
+                    await this.EnterChatRoom(room.Id);
+                }
             }
         }
 

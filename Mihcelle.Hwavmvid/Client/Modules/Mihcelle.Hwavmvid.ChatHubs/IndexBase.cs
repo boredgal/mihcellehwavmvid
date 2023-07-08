@@ -52,7 +52,7 @@ namespace Mihcelle.Hwavmvid.Modules.ChatHubs
 
         public ChatHubRoom contextRoom { get; set; }
 
-        public string GuestUsername { get; set; } = "mihw_guest";
+        public string GuestUsername { get; set; } = "guest";
         public int MessageWindowHeight { get; set; }
         public int UserlistWindowHeight { get; set; }
         public string BackgroundColor { get; set; }

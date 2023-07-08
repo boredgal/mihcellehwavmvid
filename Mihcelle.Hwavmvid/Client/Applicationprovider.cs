@@ -149,7 +149,8 @@ namespace Mihcelle.Hwavmvid.Client
                         await client.PostAsJsonAsync("api/module", module);
 
                         this.AlertsService.NewAlert(string.Concat("Package", " ", package.Name, "_", package.Version, " ", "dropdown succeeded."));
-                        await Task.Delay(1700).ContinueWith(t => { this.navigationmanager.NavigateTo(navigationmanager.Uri, true); });
+                        await Task.Delay(4100).ContinueWith(t => { this.navigationmanager.NavigateTo(navigationmanager.Uri, true); });
+
                     }
                 }
                 catch (Exception exception)

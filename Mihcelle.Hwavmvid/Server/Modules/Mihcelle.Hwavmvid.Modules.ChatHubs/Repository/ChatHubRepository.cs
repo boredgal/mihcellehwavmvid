@@ -7,6 +7,7 @@ using Oqtane.ChatHubs.Models;
 using Microsoft.Extensions.Caching.Memory;
 using Mihcelle.Hwavmvid.Shared.Models;
 using Microsoft.VisualBasic;
+using Oqtane.ChatHubs.Constants;
 
 namespace Mihcelle.Hwavmvid.Modules.ChatHubs.Repository
 {
@@ -161,9 +162,17 @@ namespace Mihcelle.Hwavmvid.Modules.ChatHubs.Repository
         }
         public async Task<ChatHubUser> GetUserByUserNameAsync(string username)
         {
-            return await this._db.ChatHubUser
-                            .Where(u => u.UserName == Oqtane.ChatHubs.Constants.ChatHubConstants.ChatHubUserPrefix + username)
-                            .FirstOrDefaultAsync();
+
+            string usernamewithprefix = username;
+            if (!usernamewithprefix.StartsWith(ChatHubConstants.ChatHubUserPrefix))
+                usernamewithprefix = ChatHubConstants.ChatHubUserPrefix + usernamewithprefix;
+
+            ChatHubUser useritem = await this._db.ChatHubUser.FirstOrDefaultAsync(item => item.UserName == usernamewithprefix);
+
+            if (useritem == null)
+                useritem = await this.GetUserByDisplayNameAsync(usernamewithprefix);
+
+            return useritem;
         }
         public async Task<ChatHubUser> GetUserByDisplayNameAsync(string username)
         {
