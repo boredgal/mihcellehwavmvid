@@ -59,7 +59,11 @@ namespace Mihcelle.Hwavmvid.Modules.ChatHubs.Commands
                 ChatHubRoomId = callerContext.RoomId,
                 ChatHubUserId = caller.Id,
                 Content = msg ?? string.Empty,
-                Type = Enum.GetName(typeof(ChatHubMessageType), ChatHubMessageType.Whisper)
+                Type = Enum.GetName(typeof(ChatHubMessageType), ChatHubMessageType.Whisper),
+                CreatedBy = caller.UserName,
+                CreatedOn = DateTime.Now,
+                ModifiedBy = caller.UserName,
+                ModifiedOn = DateTime.Now,
             };
             await context.ChatHubRepository.AddMessage(chatHubMessage);
             var chatHubMessageClientModel = context.ChatHubService.CreateChatHubMessageClientModel(chatHubMessage, caller);

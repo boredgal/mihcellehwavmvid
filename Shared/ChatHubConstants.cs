@@ -2,7 +2,7 @@
 {
     public static class ChatHubConstants
     {
-        public const string ChatHubUserPrefix = "mihw";
+        public const string ChatHubUserPrefix = "mihw_";
         public const string ModulePath = "modu/mhcc";
         public const string RoomImagesPath = "modu/mhcc/images/rooms";
         public const string UploadImagesPath = "modu/mhcc/images/uploads";

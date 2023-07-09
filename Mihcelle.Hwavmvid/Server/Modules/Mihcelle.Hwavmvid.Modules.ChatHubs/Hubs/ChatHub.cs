@@ -223,14 +223,8 @@ namespace Mihcelle.Hwavmvid.Modules.ChatHubs.Hubs
                 CreatedOn = DateTime.Now,
                 ModifiedBy = newguest.UserName,
                 ModifiedOn = DateTime.Now,
-            };
-
-            try
-            {
-                await this.chatHubRepository.AddConnection(ChatHubConnection);
-            }
-            catch (Exception exception) {
-                Console.WriteLine(exception.Message); }
+            };  
+            await this.chatHubRepository.AddConnection(ChatHubConnection);
 
             ChatHubSettings ChatHubSetting = new ChatHubSettings()
             {
@@ -247,7 +241,8 @@ namespace Mihcelle.Hwavmvid.Modules.ChatHubs.Hubs
                 await this.chatHubRepository.Addsettings(ChatHubSetting);
             }
             catch (Exception exception) {
-                Console.WriteLine(exception.Message); }
+                throw new HubException(exception.Message);    
+            }
             
             return newguest;
         }
@@ -575,16 +570,16 @@ namespace Mihcelle.Hwavmvid.Modules.ChatHubs.Hubs
         }
 
         [AllowAnonymous]
-        public async Task SendMessage(string message, string roomId)
+        public async Task SendMessage(string message, string roomId, string moduleid)
         {
-            string moduleId = Context.GetHttpContext().Request.Headers["moduleid"];
+
             var contextUser = await this.GetChatHubUserAsync();
             var contextRoom = await chatHubRepository .GetRoomById(roomId);
 
             if (contextRoom == null)
                 throw new HubException("This room does not exist anymore.");
 
-            if (await ExecuteCommandManager(contextUser, message, roomId, moduleId))
+            if (await ExecuteCommandManager(contextUser, message, roomId, moduleid))
             {
                 return;
             }

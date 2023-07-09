@@ -193,7 +193,7 @@
 
             <input type="text" class="form-control" @bind-value="@room.MessageInput" @onkeyup="async (e) => await KeyDown(e, room)" placeholder="Send your msg here or type /help for commands" />
 
-            <button type="button" class="btn btn-primary mr-0 mr-sm-4" @onclick="async () => await SendMessage_Clicked(room.MessageInput, room)"><span>✉</span></button>
+            <button type="button" class="btn btn-primary mr-0 mr-sm-4" @onclick="async () => await SendMessage_Clicked(room.MessageInput, room, room.ModuleId)"><span>✉</span></button>
             <button type="button" class="btn btn-info d-none d-sm-inline-block" @onclick="() => ChatHubService.ClearHistory(room.Id)"><span>♲</span></button>
             <button type="button" class="btn btn-dark d-inline-block d-xl-none" @onclick="() => ChatHubService.ToggleUserlist(room.Id)"><span>☰</span></button>
             <button type="button" class="btn btn-danger d-none d-sm-inline-block" @onclick="async () => await ChatHubService.DisconnectAsync()"><span>⏸︎</span></button>
@@ -232,7 +232,7 @@
     {
         if (!e.ShiftKey && e.Key == "Enter")
         {
-            await this.SendMessage_Clicked(room.MessageInput, room);
+            await this.SendMessage_Clicked(room.MessageInput, room, room.ModuleId);
         }
         else if (e.ShiftKey && e.Key == "Enter")
         {
@@ -265,9 +265,9 @@
             }
         }
     }
-    public async Task SendMessage_Clicked(string messageInput, ChatHubRoom room)
+    public async Task SendMessage_Clicked(string messageInput, ChatHubRoom room, string moduleid)
     {
-        await this.ChatHubService.SendMessage(messageInput, room.Id);
+        await this.ChatHubService.SendMessage(messageInput, room.Id, moduleid);
         room.MessageInput = string.Empty;
         this.StateHasChanged();
     }

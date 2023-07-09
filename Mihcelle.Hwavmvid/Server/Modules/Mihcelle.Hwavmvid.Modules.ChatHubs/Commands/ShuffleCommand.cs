@@ -34,7 +34,11 @@ namespace Mihcelle.Hwavmvid.Modules.ChatHubs.Commands
                 ChatHubRoomId = callerContext.RoomId,
                 ChatHubUserId = caller.Id,
                 Content = msg,
-                Type = ChatHubMessageType.Guest.ToString()
+                Type = ChatHubMessageType.Guest.ToString(),
+                CreatedBy = caller.UserName,
+                CreatedOn = DateTime.Now,
+                ModifiedBy = caller.UserName,
+                ModifiedOn = DateTime.Now,
             };
             await context.ChatHubRepository.AddMessage(chatHubMessage);
             ChatHubMessage chatHubMessageClientModel = context.ChatHubService.CreateChatHubMessageClientModel(chatHubMessage, caller);

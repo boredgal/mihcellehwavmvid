@@ -517,9 +517,9 @@ namespace Mihcelle.Hwavmvid.Modules.ChatHubs.Services
                 }
             });
         }
-        public async Task SendMessage(string content, string roomId)
+        public async Task SendMessage(string content, string roomId, string moduleid)
         {
-            await this.Connection.InvokeAsync("SendMessage", content, roomId).ContinueWith((task) =>
+            await this.Connection.InvokeAsync("SendMessage", content, roomId, moduleid).ContinueWith((task) =>
             {
                 if (task.Status == TaskStatus.RanToCompletion || task.Status == TaskStatus.Faulted)
                 {
