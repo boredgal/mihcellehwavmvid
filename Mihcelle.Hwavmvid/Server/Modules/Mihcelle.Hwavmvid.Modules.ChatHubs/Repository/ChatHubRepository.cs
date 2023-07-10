@@ -303,7 +303,7 @@ namespace Mihcelle.Hwavmvid.Modules.ChatHubs.Repository
         }
         public async Task AddConnection(ChatHubConnection ChatHubConnection)
         {
-            await this._db.AddAsync(ChatHubConnection);
+            await this._db.ChatHubConnection.AddAsync(ChatHubConnection);
             await this._db.SaveChangesAsync(true);
         }
         public async Task AddUser(ChatHubUser ChatHubUser)

@@ -109,7 +109,6 @@ namespace Mihcelle.Hwavmvid.Modules.ChatHubs.Hubs
                     {
                         var newChatHubUser = new ChatHubUser()
                         {
-                            //UserId = user.UserId,
                             //SiteId = user.SiteId,
                             UserName = Oqtane.ChatHubs.Constants.ChatHubConstants.ChatHubUserPrefix + user.UserName,
                             DisplayName = user.UserName,
@@ -126,18 +125,8 @@ namespace Mihcelle.Hwavmvid.Modules.ChatHubs.Hubs
                             LockoutEnabled = true,
                         };
 
-                        await this.chatHubRepository.AddUser(newChatHubUser);
-
-                        if (!await this.rolemanager.RoleExistsAsync(Authentication.Userrole))
-                        {
-                            await this.rolemanager.CreateAsync(new IdentityRole(Authentication.Userrole));
-                        }
-
-                        var addtoroleresult = await this.userManager.AddToRoleAsync(newChatHubUser, Authentication.Userrole);
-                        if (!addtoroleresult.Succeeded)
-                        {
-                            throw new HubException("Failed to add user to role..");
-                        }
+                        this._db.ChatHubUser.Add(newChatHubUser);
+                        this._db.SaveChanges();
 
                         return newChatHubUser;
                     }
@@ -192,69 +181,70 @@ namespace Mihcelle.Hwavmvid.Modules.ChatHubs.Hubs
                 LockoutEnabled = true,
             };
 
+            this._db.ChatHubUser.Add(chatHubUser);
+            this._db.SaveChanges();
+            
+            string ip = Context.GetHttpContext().Connection.RemoteIpAddress.ToString();
+            string useragent = Context.GetHttpContext().Request.Headers["User-Agent"].ToString();
 
-            await this.chatHubRepository.AddUser(chatHubUser);
-            var newguest = await this.chatHubRepository.GetUserByUserNameAsync(chatHubUser.UserName);
-            var newguestclientmodel = newguest.ClientModel();
+            try
+            {
+
+                ChatHubConnection ChatHubConnection = new ChatHubConnection()
+                {
+                    ChatHubUserId = chatHubUser.Id,
+                    ConnectionId = Context.ConnectionId,
+                    IpAddress = ip,
+                    UserAgent = useragent,
+                    Status = ChatHubConnectionStatus.Active.ToString(),
+                    CreatedBy = chatHubUser.UserName,
+                    CreatedOn = DateTime.Now,
+                    ModifiedBy = chatHubUser.UserName,
+                    ModifiedOn = DateTime.Now,
+                };
+
+                this._db.ChatHubConnection.Add(ChatHubConnection);
+                this._db.SaveChanges();
+
+                ChatHubSettings ChatHubSetting = new ChatHubSettings()
+                {
+                    ChatHubUserId = chatHubUser.Id,
+                    UsernameColor = "#7744aa",
+                    MessageColor = "#44aa77",
+                    CreatedOn = DateTime.Now,
+                    CreatedBy = chatHubUser.UserName,
+                    ModifiedOn = DateTime.Now,
+                    ModifiedBy = chatHubUser.UserName,
+                };
+
+                this._db.ChatHubSetting.Add(ChatHubSetting);
+                this._db.SaveChanges();
+            }
+            catch (Exception exception)
+            {
+                throw new HubException(exception.Message);
+            }
 
             if (!await this.rolemanager.RoleExistsAsync(Authentication.Anonymousrole))
             {
                 await this.rolemanager.CreateAsync(new IdentityRole(Authentication.Anonymousrole));
             }
 
-            var addtoroleresult = await this.userManager.AddToRoleAsync(newguest, Authentication.Anonymousrole);
+            var addtoroleresult = await this.userManager.AddToRoleAsync(chatHubUser, Authentication.Anonymousrole);
             if (!addtoroleresult.Succeeded)
             {
                 throw new HubException("Failed to add user to role..");
             }
-            
-            string ip = Context.GetHttpContext().Connection.RemoteIpAddress.ToString();
-            string useragent = Context.GetHttpContext().Request.Headers["User-Agent"].ToString();
 
-            await this.chatHubRepository.GetUserByIdAsync(newguest.Id);
-            ChatHubConnection ChatHubConnection = new ChatHubConnection()
-            {
-                ChatHubUserId = newguest.Id,
-                ConnectionId = Context.ConnectionId,
-                IpAddress = ip,
-                UserAgent = useragent,
-                Status = ChatHubConnectionStatus.Active.ToString(),
-                CreatedBy = newguest.UserName,
-                CreatedOn = DateTime.Now,
-                ModifiedBy = newguest.UserName,
-                ModifiedOn = DateTime.Now,
-            };  
-            await this.chatHubRepository.AddConnection(ChatHubConnection);
-
-            ChatHubSettings ChatHubSetting = new ChatHubSettings()
-            {
-                UsernameColor = "#7744aa",
-                MessageColor = "#44aa77",
-                ChatHubUserId = newguestclientmodel.Id,
-                CreatedOn = DateTime.Now,
-                CreatedBy = newguestclientmodel.UserName,
-                ModifiedOn = DateTime.Now,
-                ModifiedBy = newguestclientmodel.UserName,
-            };
-            try
-            {
-                await this.chatHubRepository.Addsettings(ChatHubSetting);
-            }
-            catch (Exception exception) {
-                throw new HubException(exception.Message);    
-            }
-            
-            return newguest;
+            return chatHubUser;
         }
         private async Task<ChatHubUser> OnConnectedUser(ChatHubUser chatHubUser)
         {
-
 
             /*
              * Modiefied in march
              * 2041
              */
-
 
             string ip = Context.GetHttpContext().Connection.RemoteIpAddress.ToString();
             string useragent = Context.GetHttpContext().Request.Headers["User-Agent"].ToString();
@@ -271,22 +261,36 @@ namespace Mihcelle.Hwavmvid.Modules.ChatHubs.Hubs
                 ModifiedBy = chatHubUser.UserName,
                 ModifiedOn = DateTime.Now,
             };
-            await this.chatHubRepository.AddConnection(ChatHubConnection);            
+            this._db.ChatHubConnection.Add(ChatHubConnection);
+            this._db.SaveChanges();
 
             ChatHubSettings ChatHubSetting = this.chatHubRepository.GetSettingByUser(chatHubUser);
             if(ChatHubSetting == null)
             {
                 ChatHubSetting = new ChatHubSettings()
                 {
+                    ChatHubUserId = chatHubUser.Id,
                     UsernameColor = "#7744aa",
                     MessageColor = "#44aa77",
-                    ChatHubUserId = chatHubUser.Id,
                     CreatedOn = DateTime.Now,
                     CreatedBy = chatHubUser.UserName,
                     ModifiedBy = chatHubUser.UserName,
                     ModifiedOn = DateTime.Now,
                 };
-                await this.chatHubRepository.Addsettings(ChatHubSetting);
+
+                this._db.ChatHubSetting.Add(ChatHubSetting);
+                this._db.SaveChanges();
+            }
+
+            if (!await this.rolemanager.RoleExistsAsync(Authentication.Userrole))
+            {
+                await this.rolemanager.CreateAsync(new IdentityRole(Authentication.Userrole));
+            }
+
+            var addtoroleresult = await this.userManager.AddToRoleAsync(chatHubUser, Authentication.Userrole);
+            if (!addtoroleresult.Succeeded)
+            {
+                throw new HubException("Failed to add user to role..");
             }
 
             return chatHubUser;
