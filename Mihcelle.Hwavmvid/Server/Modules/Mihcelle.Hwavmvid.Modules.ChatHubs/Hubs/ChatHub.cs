@@ -287,10 +287,13 @@ namespace Mihcelle.Hwavmvid.Modules.ChatHubs.Hubs
                 await this.rolemanager.CreateAsync(new IdentityRole(Authentication.Userrole));
             }
 
-            var addtoroleresult = await this.userManager.AddToRoleAsync(chatHubUser, Authentication.Userrole);
-            if (!addtoroleresult.Succeeded)
+            if (!(await this.userManager.IsInRoleAsync(chatHubUser, Authentication.Userrole)))
             {
-                throw new HubException("Failed to add user to role..");
+                var addtoroleresult = await this.userManager.AddToRoleAsync(chatHubUser, Authentication.Userrole);
+                if (!addtoroleresult.Succeeded)
+                {
+                    throw new HubException("Failed to add user to role..");
+                }
             }
 
             return chatHubUser;
