@@ -12,15 +12,18 @@ using Mihcelle.Hwavmvid.Shared.Models;
 
 namespace Mihcelle.Hwavmvid.Modules.ChatHubs.Tasks
 {
-    public class OnStartupApplicationTask : Hostedservicebase, IHostedservicebase
+    public class OnStartupApplicationTask : Server.Tasks.Hostedservicebase, IHostedservicebase
     {
 
 
         private IServiceScopeFactory iservicescopefacotry { get; set; }
         private Mihcelle.Hwavmvid.Modules.ChatHubs.Applicationdbcontext moduleapplicationdbcontext { get; set; }
         private ChatHubService chathubservice { get; set; }
+
+        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public string Name { get; set; } = "on startup application task";
+        public bool Active { get; set; } = true;
         public int Interval { get; set; } = 17000;
-        private bool Taskexecuted { get; set; } = false;
 
         public OnStartupApplicationTask(IServiceScopeFactory servicescopefactory) : base(servicescopefactory)
         {
@@ -40,9 +43,9 @@ namespace Mihcelle.Hwavmvid.Modules.ChatHubs.Tasks
         public async Task Runtaskimplementation(Hwavmvid.Server.Data.Applicationdbcontext frameworkapplicationdbcontext)
         {
 
-            if (this.Taskexecuted == false)
+            if (this.Active == true)
             {
-                this.Taskexecuted = true;
+                this.Active = false;
                 var scope = this.servicescopefactory.CreateScope();
                 this.moduleapplicationdbcontext = scope.ServiceProvider.GetService<Mihcelle.Hwavmvid.Modules.ChatHubs.Applicationdbcontext>();
                 this.chathubservice = scope.ServiceProvider.GetService<ChatHubService>();

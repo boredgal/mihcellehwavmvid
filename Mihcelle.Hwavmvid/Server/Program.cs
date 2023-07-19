@@ -91,7 +91,7 @@ builder.Services.AddMvc()
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
-builder.Services.AddSingleton<IHostedService, Hostedservicebase>();
+builder.Services.AddSingleton<IHostedService, Mihcelle.Hwavmvid.Server.Tasks.Hostedservicebase>();
 
 builder.Services.AddCors(option =>
 {
@@ -143,7 +143,7 @@ if (installed == true)
             }
         }
     } 
-    catch (Exception exception) { Console.WriteLine(exception.Message); }    
+    catch (Exception exception) { Console.WriteLine(exception.Message); }
 }
 
 var app = builder.Build();

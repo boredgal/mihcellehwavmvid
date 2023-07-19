@@ -12,13 +12,17 @@ using Mihcelle.Hwavmvid.Shared.Models;
 
 namespace Mihcelle.Hwavmvid.Modules.ChatHubs.Tasks
 {
-    public class CachingFrontpageTask : Hostedservicebase, IHostedservicebase
+    public class CachingFrontpageTask : Server.Tasks.Hostedservicebase, IHostedservicebase
     {
 
 
         private IServiceScopeFactory iservicescopefacotry { get; set; }
         private Mihcelle.Hwavmvid.Modules.ChatHubs.Applicationdbcontext moduleapplicationdbcontext { get; set; }
         private ChatHubService chathubservice { get; set; }
+
+        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public string Name { get; set; } = "caching frontpage task";
+        public bool Active { get; set; } = true;
         public int Interval { get; set; } = 17000;
 
         public CachingFrontpageTask(IServiceScopeFactory servicescopefactory) : base(servicescopefactory)

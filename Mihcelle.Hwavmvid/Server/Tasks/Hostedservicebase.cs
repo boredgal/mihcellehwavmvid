@@ -8,6 +8,7 @@ namespace Mihcelle.Hwavmvid.Server.Tasks
     {
 
 
+
         public IServiceScopeFactory servicescopefactory { get; set; }
         public Applicationdbcontext frameworkapplicationdbcontext { get; set; }
 

@@ -1,0 +1,108 @@
+﻿@inherits ComponentBase
+
+@using System.Linq
+@using System.Collections.Generic
+@using Mihcelle.Hwavmvid.Client.Pages
+@using Mihcelle.Hwavmvid.Pager
+@using Mihcelle.Hwavmvid.Shared.Models
+@using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Components.Web
+
+@inject IHttpClientFactory ihttpclientfactory
+@inject NavigationManager navigationmanager
+@inject Pagerservice<Applicationtask> pagerservice
+@inject Applicationprovider? applicationprovider
+
+<AuthorizeView>
+    <Authorized>
+
+        <div class="container">
+            <div class="row align-items-center my-2">
+
+                <div class="col-lg-4 py-2">
+
+
+                    @{
+                        var getItemsApiUrl = string.Concat(this.navigationmanager?.BaseUri, "api/task");
+                    }
+
+                    <PagerComponent ApiQueryId="@this.applicationprovider?._contextsite?.Id" HubConnectionId="@string.Empty" ElementId="Mihcellehwavmvidtasks" GetItemsApiUrl="@getItemsApiUrl" ContextPageItems="@this.taskitems" Context="contextitem" ItemsPerPage="1" TItemGeneric="@Applicationtask" Class="py-sm-3" Scrolling="@false">
+                        <PagerItem>
+
+                            <div class="row" style="background-color: lightgoldenrodyellow; border-bottom: 1px solid #f1f1f1;">
+                                <div class="col-sm-8">
+                                    <button type="button" class="btn btn-sm btn-link">@contextitem.Name</button>
+                                </div>
+                            </div>
+
+                        </PagerItem>
+                    </PagerComponent>
+
+                </div>
+
+            </div>
+        </div>
+
+    </Authorized>
+</AuthorizeView>
+
+
+@code {
+
+
+
+    public List<Applicationtask> taskitems { get; set; } = new List<Applicationtask>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        this.pagerservice.OnRetrievedItems += RetrievedItems;
+        this.pagerservice.OnRemoveItem += RemoveItem;
+        this.pagerservice.OnError += Error;
+
+        await base.OnInitializedAsync();
+    }
+
+    public void RetrievedItems(List<Applicationtask> obj, string apiQueryId)
+    {
+        if (apiQueryId.ToString() == this.applicationprovider?._contextsite?.Id)
+        {
+            this.taskitems.AddRange(obj);
+            this.StateHasChanged();
+        }
+    }
+
+    public async void RemoveItem(Pagerevent<Applicationtask> obj)
+    {
+        if (obj.ApiQueryId.ToString() == this.applicationprovider?._contextsite?.Id)
+        {
+            try
+            {
+                var client = this.ihttpclientfactory?.CreateClient("Mihcelle.Hwavmvid.ServerApi.Unauthenticated");
+                await client.DeleteAsync(string.Concat("api/task/", obj.Item.Id));
+
+                this.taskitems.Remove(obj.Item);
+                this.StateHasChanged();
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+            }
+        }
+    }
+
+    public void Error(Exception exception, string apiQueryId)
+    {
+        if (this.applicationprovider?._contextsite?.Id == apiQueryId.ToString())
+        {
+            Console.Write(exception.Message);
+        }
+    }
+
+    public void Dispose()
+    {
+        this.pagerservice.OnRetrievedItems -= RetrievedItems;
+        this.pagerservice.OnRemoveItem -= RemoveItem;
+        this.pagerservice.OnError -= Error;
+    }
+
+}
