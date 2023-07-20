@@ -12,6 +12,7 @@
 @inject NavigationManager navigationmanager
 @inject Pagerservice<Applicationtask> pagerservice
 @inject Applicationprovider? applicationprovider
+@inject NavigationManager navigationmanager
 
 <AuthorizeView>
     <Authorized>
@@ -19,7 +20,7 @@
         <div class="container">
             <div class="row align-items-center my-2">
 
-                <div class="col-lg-4 py-2">
+                <div class="col-lg-12 py-2">
 
 
                     @{
@@ -30,9 +31,23 @@
                         <PagerItem>
 
                             <div class="row" style="background-color: lightgoldenrodyellow; border-bottom: 1px solid #f1f1f1;">
-                                <div class="col-sm-8">
-                                    <button type="button" class="btn btn-sm btn-link">@contextitem.Name</button>
+
+                                <div class="col-sm-3">
+                                    <button disabled type="button" class="btn btn-sm btn-link">Project: @contextitem.Projectname</button>
                                 </div>
+
+                                <div class="col-sm-3">
+                                    <button disabled type="button" class="btn btn-sm btn-link">Task: @contextitem.Taskname</button>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <button type="button" @onclick="async () => await enabledisabletask(contextitem)" class="btn btn-sm btn-link">enable/disable task active: @contextitem.Active.ToString()</button>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <button disabled type="button" class="btn btn-sm btn-link">interval in milliseconds: @contextitem.Interval</button>
+                                </div>
+
                             </div>
 
                         </PagerItem>
@@ -96,6 +111,24 @@
         {
             Console.Write(exception.Message);
         }
+    }
+
+    protected async Task enabledisabletask(Applicationtask taskitem)
+    {
+
+        var client = this.ihttpclientfactory?.CreateClient("Mihcelle.Hwavmvid.ServerApi.Unauthenticated");
+        var response = await client.PostAsJsonAsync("api/task", taskitem);
+        if (response.IsSuccessStatusCode == true)
+        {
+            var item = this.taskitems.FirstOrDefault(item => item.Id == taskitem.Id);
+            if (item != null)
+            {
+                item.Active = !(taskitem.Active);
+                this.StateHasChanged();
+            }
+        }
+
+        //this.navigationmanager.NavigateTo(this.navigationmanager.Uri, true);
     }
 
     public void Dispose()

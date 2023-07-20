@@ -21,7 +21,8 @@ namespace Mihcelle.Hwavmvid.Modules.ChatHubs.Tasks
         private ChatHubService chathubservice { get; set; }
 
         public string Id { get; set; } = Guid.NewGuid().ToString();
-        public string Name { get; set; } = "on startup application task";
+        public string Taskname { get; set; } = "on startup application task";
+        public string Projectname { get; set; } = "Chathubsmodule";
         public bool Active { get; set; } = true;
         public int Interval { get; set; } = 17000;
 

@@ -21,7 +21,8 @@ namespace Mihcelle.Hwavmvid.Modules.ChatHubs.Tasks
         private ChatHubService chathubservice { get; set; }
 
         public string Id { get; set; } = Guid.NewGuid().ToString();
-        public string Name { get; set; } = "caching frontpage task";
+        public string Taskname { get; set; } = "caching frontpage task";
+        public string Projectname { get; set; } = "Chathubsmodule";
         public bool Active { get; set; } = true;
         public int Interval { get; set; } = 17000;
 
@@ -46,16 +47,20 @@ namespace Mihcelle.Hwavmvid.Modules.ChatHubs.Tasks
         public async Task Runtaskimplementation(Hwavmvid.Server.Data.Applicationdbcontext frameworkapplicationdbcontext)
         {
 
-            var scope = this.servicescopefactory.CreateScope();
-            this.moduleapplicationdbcontext = scope.ServiceProvider.GetService<Mihcelle.Hwavmvid.Modules.ChatHubs.Applicationdbcontext>();
-            this.chathubservice = scope.ServiceProvider.GetService<ChatHubService>();
-
-            var chathubmoduleassemblyname = "Mihcelle.Hwavmvid.Modules.ChatHubs.Index, Mihcelle.Hwavmvid.Client";
-            var chathubmoduleitems = await frameworkapplicationdbcontext.Applicationmodules.Where(item => item.Assemblytype == chathubmoduleassemblyname).ToListAsync();
-            foreach (var module in chathubmoduleitems)
+            if (this.Active)
             {
-                var items = chathubservice.GetRooms(1, Oqtane.ChatHubs.Constants.ChatHubConstants.FrontPageItems, module.Id, true).GetAwaiter().GetResult();
+                var scope = this.servicescopefactory.CreateScope();
+                this.moduleapplicationdbcontext = scope.ServiceProvider.GetService<Mihcelle.Hwavmvid.Modules.ChatHubs.Applicationdbcontext>();
+                this.chathubservice = scope.ServiceProvider.GetService<ChatHubService>();
+
+                var chathubmoduleassemblyname = "Mihcelle.Hwavmvid.Modules.ChatHubs.Index, Mihcelle.Hwavmvid.Client";
+                var chathubmoduleitems = await frameworkapplicationdbcontext.Applicationmodules.Where(item => item.Assemblytype == chathubmoduleassemblyname).ToListAsync();
+                foreach (var module in chathubmoduleitems)
+                {
+                    var items = chathubservice.GetRooms(1, Oqtane.ChatHubs.Constants.ChatHubConstants.FrontPageItems, module.Id, true).GetAwaiter().GetResult();
+                }
             }
+            
         }
     }
 }

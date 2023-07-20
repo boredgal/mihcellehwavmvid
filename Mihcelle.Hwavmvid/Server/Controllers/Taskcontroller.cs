@@ -26,7 +26,7 @@ namespace Mihcelle.Hwavmvid.Server.Controllers
             this.servicescopefactory = iservicescopefactory;
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet("{contextpage}/{itemsperpage}/{siteid}")]
         public async Task<Pagerapiitem<Applicationtask>?> Get(int contextpage, int itemsperpage, string siteid)
         {
@@ -51,7 +51,8 @@ namespace Mihcelle.Hwavmvid.Server.Controllers
                             Applicationtask item = new Applicationtask()
                             {
                                 Id = hostedserviceitem.Id,
-                                Name = hostedserviceitem.Name,
+                                Taskname = hostedserviceitem.Taskname,
+                                Projectname = hostedserviceitem.Projectname,
                                 Interval = hostedserviceitem.Interval,
                                 Active = hostedserviceitem.Active,
                             };
@@ -71,6 +72,36 @@ namespace Mihcelle.Hwavmvid.Server.Controllers
                 return apiitem;
             }
             catch (Exception exception) { return null; }
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task Post([FromBody] Applicationtask taskitem)
+        {
+
+
+            try
+            {
+                var scope = this.servicescopefactory.CreateScope();
+                var hostedservices = AppDomain.CurrentDomain.GetAssemblies().SelectMany(assembly => assembly.GetTypes()).Where(assemblytypes => (typeof(IHostedservicebase)).IsAssignableFrom(assemblytypes));
+
+                foreach (var serviceclassitem in hostedservices)
+                {
+
+                    if (serviceclassitem.IsClass)
+                    {
+
+                        var hostedserviceitem = (IHostedservicebase?)scope.ServiceProvider.GetService(serviceclassitem);
+                        if (hostedserviceitem != null && hostedserviceitem.Id == taskitem.Id)
+                        {
+                            hostedserviceitem.Active = taskitem.Active;
+                            break;
+                        }
+                    }
+                }
+            }
+            catch (Exception exception) { throw new NotImplementedException(); }
+
         }
 
     }
