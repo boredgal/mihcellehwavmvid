@@ -11,6 +11,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Hubs\**" />
+    <Content Remove="Hubs\**" />
+    <EmbeddedResource Remove="Hubs\**" />
+    <None Remove="Hubs\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Modules\Mihcelle.Hwavmvid.Modules.ChatHubs\bk.png" />
     <None Remove="Modules\Mihcelle.Hwavmvid.Modules.ChatHubs\chat-room-image-deprecated.png" />
     <None Remove="Modules\Mihcelle.Hwavmvid.Modules.ChatHubs\chat-room-image.png" />
@@ -105,10 +112,6 @@
 		<ProjectReference Include="..\Client\Mihcelle.Hwavmvid.Client.csproj" />
 		<ProjectReference Include="..\Shared\Mihcelle.Hwavmvid.Shared.csproj" />
 		
-	</ItemGroup>
-
-	<ItemGroup>
-		<Folder Include="Hubs\" />
 	</ItemGroup>
 
 </Project>

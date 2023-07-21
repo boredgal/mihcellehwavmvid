@@ -105,13 +105,15 @@ namespace Mihcelle.Hwavmvid.Server.Controllers
 
                 int maximumfilesize = 10;
                 int maximumfilesallowed = 1;
-                string relativefolderpath = @"\images";
-                string absolutefolderpath = string.Concat(this.iwebhostenvironment.WebRootPath, relativefolderpath);
+                //string relativefolderpath = @"\images";
+                //string absolutefolderpath = string.Concat(this.iwebhostenvironment.WebRootPath, relativefolderpath);
 
+                /*
                 if (!Directory.Exists(absolutefolderpath))
                 {
                     Directory.CreateDirectory(absolutefolderpath);
                 }
+                */
 
                 if (files.Count > maximumfilesallowed)
                 {
@@ -133,9 +135,11 @@ namespace Mihcelle.Hwavmvid.Server.Controllers
                         return new BadRequestObjectResult(new { Message = "Unknown file type(s)." });
                     }
 
-                    string fileName = string.Concat(Guid.NewGuid().ToString(), fileExtension);
-                    string fullPath = Path.Combine(absolutefolderpath, fileName);
-                    using (var stream = new FileStream(fullPath, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite, 4096, true))
+                    //string fileName = string.Concat(Guid.NewGuid().ToString(), fileExtension);
+                    //string fullPath = Path.Combine(absolutefolderpath, fileName);
+
+                    string faviconfullpath = string.Concat(this.iwebhostenvironment.WebRootPath, @"\", "favicon.ico");
+                    using (var stream = new FileStream(faviconfullpath, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite, 4096, true))
                     {
                         file.CopyTo(stream);
                     }
@@ -143,7 +147,7 @@ namespace Mihcelle.Hwavmvid.Server.Controllers
                     var site = await this.applicationdbcontext.Applicationsites.FirstOrDefaultAsync();
                     if (site != null)
                     {
-                        site.Favicon = fileName;
+                        site.Favicon = "favicon.ico";
                         this.applicationdbcontext.Applicationsites.Update(site);
                         await this.applicationdbcontext.SaveChangesAsync();
                     }
