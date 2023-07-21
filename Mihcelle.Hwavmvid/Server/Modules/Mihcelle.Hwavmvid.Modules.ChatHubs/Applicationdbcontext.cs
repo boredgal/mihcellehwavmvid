@@ -12,7 +12,7 @@ using System.Reflection.Emit;
 namespace Mihcelle.Hwavmvid.Modules.ChatHubs
 {
 
-    public class Applicationdbcontext : Mihcelle.Hwavmvid.Server.Data.Applicationdbcontext, Moduleinstallerinterface
+    public class Applicationdbcontext : Mihcelle.Hwavmvid.Server.Data.Applicationdbcontext, IModuleinstallerinterface
     {
 
         public virtual DbSet<ChatHubUser> ChatHubUser { get; set; }

@@ -16,6 +16,8 @@
         @if (this.applicationprovider._contextpackages != null)
         {
 
+            <h4 class="lead fw-bold bg-dark text-white text-center"><small>Application framework modules extensions</small></h4>
+
             <div class="d-flex flex-wrap bg-white mt-4 py-3 position-relative" style="z-index: 4100; max-width: 410px;">            
 
                 @foreach (var package in this.applicationprovider._contextpackages)
@@ -44,7 +46,7 @@
     {
 
         var client = this.ihttpclientfactory.CreateClient("Mihcelle.Hwavmvid.ServerApi.Unauthenticated");
-        this.applicationprovider._contextpackages = await client.GetFromJsonAsync<List<Applicationmodulepackage>>("api/modulepackage");
+        this.applicationprovider._contextpackages = await client.GetFromJsonAsync<List<Applicationmodulepackage>>("api/modulepackage/packageextensions");
 
         await base.OnInitializedAsync();
     }

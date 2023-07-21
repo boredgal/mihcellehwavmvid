@@ -35,12 +35,12 @@ namespace Mihcelle.Hwavmvid.Server.Controllers
             var module = await this.applicationdbcontext.Applicationmodules.FirstOrDefaultAsync(item => item.Id == id);
             if (module != null)
             {
-                var installeritems = AppDomain.CurrentDomain.GetAssemblies().SelectMany(assembly => assembly.GetTypes()).Where(assemblytypes => (typeof(Moduleinstallerinterface)).IsAssignableFrom(assemblytypes));
+                var installeritems = AppDomain.CurrentDomain.GetAssemblies().SelectMany(assembly => assembly.GetTypes()).Where(assemblytypes => (typeof(IModuleinstallerinterface)).IsAssignableFrom(assemblytypes));
                 foreach (var item in installeritems)
                 {
                     if (item.IsClass)
                     {
-                        var moduleinstaller = (Moduleinstallerinterface?)this.serviceprovider.GetService(item);
+                        var moduleinstaller = (IModuleinstallerinterface?)this.serviceprovider.GetService(item);
                         if (moduleinstaller != null)
                         {
                             try {

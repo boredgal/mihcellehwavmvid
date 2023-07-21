@@ -10,7 +10,7 @@ using System.Reflection;
 namespace Mihcelle.Hwavmvid.Modules.Roulette
 {
 
-    public class Applicationdbcontext : Mihcelle.Hwavmvid.Server.Data.Applicationdbcontext, Moduleinstallerinterface
+    public class Applicationdbcontext : Mihcelle.Hwavmvid.Server.Data.Applicationdbcontext, IModuleinstallerinterface
     {
 
         public DbSet<Applicationroulette> Applicationroulettes { get; set; }

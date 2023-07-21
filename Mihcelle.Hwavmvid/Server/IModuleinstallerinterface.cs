@@ -2,12 +2,12 @@
 
 namespace Mihcelle.Hwavmvid.Server
 {
-    public interface Moduleinstallerinterface
+    public interface IModuleinstallerinterface
     {
 
-        Task Removemodule(string id);
         Task Install();
         Task Deinstall();
+        Task Removemodule(string id);
         Applicationmodulepackage applicationmodulepackage { get; }
 
     }

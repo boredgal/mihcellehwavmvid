@@ -4,8 +4,12 @@
 @using Microsoft.AspNetCore.Components
 @using Microsoft.AspNetCore.Components.Web
 @using Mihcelle.Hwavmvid.Client.Pages
+@using Mihcelle.Hwavmvid.Modules
 
 @inject Modalservice modalservice
+@inject IHttpClientFactory? ihttpclientfactory
+@inject Applicationprovider applicationprovider
+
 
 <AuthorizeView>
     <Authorized>
@@ -15,41 +19,30 @@
             <Adminbase _adminmodalelementid="@adminmodalelementid" _componenttype="@contextcomponenttype"></Adminbase>
         }
 
-        <div>
+        @if (this.applicationprovider._contextframeworkpackages != null && this.applicationprovider._contextframeworkpackages.Any())
+        {
+            <div>
 
-            <div class="d-flex flex-wrap bg-white mt-4">
+                <h4 class="lead fw-bold bg-dark text-white text-center"><small>Application framework modules inside</small></h4>
 
-                <div class="position-relative p-1" style="width: 150px; height: 150px;">
-                    <button @onclick="async() => await Opencontextmodule(typeof(Sitesettings))" @onclick:stopPropagation=true type="button" class="btn btn-light w-100 h-100 px-2 py-4 bg-light text-dark text text-centerborder border-dark rounded-0">
-                        <span class="display-4">w</span><br />
-                        <small class="py-2 w-100" style="font-size: 0.8rem; position:absolute; left:0px; bottom:10px;">Site settings</small>
-                    </button>
-                </div>
+                <div class="d-flex flex-wrap bg-white mt-4">
 
-                <div class="position-relative p-1" style="width: 150px; height: 150px;">
-                    <button @onclick="async() => await Opencontextmodule(typeof(Databasesettings))" @onclick:stopPropagation=true type="button" class="btn btn-light w-100 h-100 px-2 py-4 bg-light text-dark text-center display-4 border border-dark rounded-0">
-                        <span class="display-4">a</span><br />
-                        <small class="py-2 w-100" style="font-size: 0.8rem; position:absolute; left:0px; bottom:10px;">Database settings</small>
-                    </button>
-                </div>
+                    @foreach (var package in this.applicationprovider._contextframeworkpackages)
+                    {
 
-                <div class="position-relative p-1" style="width: 150px; height: 150px;">
-                    <button @onclick="async() => await Opencontextmodule(typeof(Pagesettings))" @onclick:stopPropagation=true type="button" class="btn btn-light w-100 h-100 px-2 py-4 bg-light text-dark text-center display-4 border border-dark rounded-0">
-                        <span class="display-4">s</span><br />
-                        <small class="py-2 w-100" style="font-size: 0.8rem; position:absolute; left:0px; bottom:10px;">Page settings</small>
-                    </button>
-                </div>
+                        <div class="position-relative p-1" style="width: 150px; height: 150px;">
+                            <button @onclick="async() => await Opencontextmodule(Type.GetType(package.Assemblytype))" @onclick:stopPropagation=true type="button" class="btn btn-light w-100 h-100 px-2 py-4 bg-light text-dark text text-centerborder border-dark rounded-0">
+                                <span class="display-4">@package.Icon.ToLower()</span><br />
+                                <small class="py-2 w-100" style="font-size: 0.8rem; position:absolute; left:0px; bottom:10px;">@package.Name</small>
+                            </button>
+                        </div>
 
-                <div class="position-relative p-1" style="width: 150px; height: 150px;">
-                    <button @onclick="async() => await Opencontextmodule(typeof(Taskmanager))" @onclick:stopPropagation=true type="button" class="btn btn-light w-100 h-100 px-2 py-4 bg-light text-dark text-center display-4 border border-dark rounded-0">
-                        <span class="display-4">s</span><br />
-                        <small class="py-2 w-100" style="font-size: 0.8rem; position:absolute; left:0px; bottom:10px;">Task manager</small>
-                    </button>
+                    }
+
                 </div>
 
             </div>
-
-        </div>
+        }
 
     </Authorized>
     <NotAuthorized>
@@ -62,10 +55,17 @@
 
 
     public string adminmodalelementid { get; set; } = "admin_modal_element_id";
-    public Type? contextcomponenttype { get; set; } = typeof(Sitesettings);
+    public Type? contextcomponenttype { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
+
+        var client = this.ihttpclientfactory.CreateClient("Mihcelle.Hwavmvid.ServerApi.Unauthenticated");
+        var items = await client.GetFromJsonAsync<List<Applicationmodulepackage>>("api/modulepackage/frameworkpackages");
+
+        this.contextcomponenttype = Type.GetType(items.FirstOrDefault().Assemblytype);
+        this.applicationprovider._contextframeworkpackages = items;
+
         await base.OnInitializedAsync();
     }
 

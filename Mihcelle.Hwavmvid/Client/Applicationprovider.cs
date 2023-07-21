@@ -55,6 +55,8 @@ namespace Mihcelle.Hwavmvid.Client
 
         // _contextitems and draggable droppable package items //
         public List<Applicationmodulepackage>? _contextpackages { get; set; }
+        public List<Applicationmodulepackage>? _contextframeworkpackages { get; set; }
+
         public List<Applicationcontainercolumn>? _contextcontainercolumns { get; set; }
 
 

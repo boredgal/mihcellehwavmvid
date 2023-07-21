@@ -9,7 +9,7 @@ using Mihcelle.Hwavmvid.Shared.Models;
 namespace Mihcelle.Hwavmvid.Modules.Htmleditor
 {
 
-    public class Applicationdbcontext : Mihcelle.Hwavmvid.Server.Data.Applicationdbcontext, Moduleinstallerinterface
+    public class Applicationdbcontext : Mihcelle.Hwavmvid.Server.Data.Applicationdbcontext, IModuleinstallerinterface
     {
 
         public DbSet<Applicationhtmleditor> Applicationhtmleditors { get; set; }
