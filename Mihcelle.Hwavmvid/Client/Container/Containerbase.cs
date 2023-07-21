@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
-using Mihcelle.Hwavmvid.Client.Pages;
 using Mihcelle.Hwavmvid.Shared.Models;
 using System.Net.Http.Json;
 

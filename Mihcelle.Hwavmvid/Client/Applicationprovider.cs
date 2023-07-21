@@ -105,6 +105,28 @@ namespace Mihcelle.Hwavmvid.Client
                         Console.WriteLine(exception.Message); 
                     }
 
+                    if (this.appjavascriptfile != null && this._contextframeworkpackages != null && this._contextcontainercolumns != null)
+                    {
+                        try
+                        {
+                            foreach (var packageitem in this._contextframeworkpackages)
+                            {
+                                var obj = await this.appjavascriptfile.InvokeAsync<IJSObjectReference>("initpackagemoduledraganddrop", this.dotnetobjref, packageitem.Id, "draggable");
+                                if (obj != null)
+                                {
+                                    await obj.InvokeVoidAsync("removeevents");
+                                    await obj.InvokeVoidAsync("addevents");
+                                }
+
+                                packageitem.JSObjectReference = obj;
+                            }
+                        }
+                        catch (Exception exception)
+                        {
+                            Console.WriteLine(exception.Message);
+                        }
+                    }
+
                     try
                     {
                         foreach (var columnitem in this._contextcontainercolumns)
@@ -133,26 +155,34 @@ namespace Mihcelle.Hwavmvid.Client
             {
                 try
                 {
-                    var package = this._contextpackages.FirstOrDefault(item => item.Id == draggedfieldid);
-                    if (package != null)
+
+                    if (this._contextpackages != null && this._contextframeworkpackages != null)
                     {
-                        var module = new Applicationmodule()
+
+                    var package = this._contextpackages.FirstOrDefault(item => item.Id == draggedfieldid);
+                    if (package == null)
+                        package = this._contextframeworkpackages.FirstOrDefault(item => item.Id == draggedfieldid);
+
+                        if (package != null)
                         {
-                            Id = null,
-                            Packageid = package.Id,
-                            Containercolumnid = droppedfieldid,
-                            Containercolumnposition = 0,
-                            Assemblytype = package.Assemblytype,
-                            Settingstype = package.Settingstype,
-                            Createdon = DateTime.Now,
-                        };
 
-                        var client = this.ihttpclientfactory.CreateClient("Mihcelle.Hwavmvid.ServerApi.Unauthenticated");
-                        await client.PostAsJsonAsync("api/module", module);
+                            var module = new Applicationmodule()
+                            {
+                                Id = null,
+                                Packageid = package.Id,
+                                Containercolumnid = droppedfieldid,
+                                Containercolumnposition = 0,
+                                Assemblytype = package.Assemblytype,
+                                Settingstype = package.Settingstype,
+                                Createdon = DateTime.Now,
+                            };
 
-                        this.AlertsService.NewAlert(string.Concat("Package", " ", package.Name, "_", package.Version, " ", "dropdown succeeded."));
-                        await Task.Delay(4100).ContinueWith(t => { this.navigationmanager.NavigateTo(navigationmanager.Uri, true); });
+                            var client = this.ihttpclientfactory.CreateClient("Mihcelle.Hwavmvid.ServerApi.Unauthenticated");
+                            await client.PostAsJsonAsync("api/module", module);
 
+                            this.AlertsService.NewAlert(string.Concat("Package", " ", package.Name, "_", package.Version, " ", "dropdown succeeded."));
+                            await Task.Delay(4100).ContinueWith(t => { this.navigationmanager.NavigateTo(navigationmanager.Uri, true); });
+                        }
                     }
                 }
                 catch (Exception exception)

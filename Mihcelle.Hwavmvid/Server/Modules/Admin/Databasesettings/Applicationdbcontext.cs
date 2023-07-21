@@ -32,7 +32,7 @@ namespace Mihcelle.Hwavmvid.Framework.Modules.Databasesettings
                     Icon = "W",
                     Assemblytype = "Mihcelle.Hwavmvid.Modules.Databasesettings.Databasesettings, Mihcelle.Hwavmvid.Client",
                     Settingstype = "Mihcelle.Hwavmvid.Modules.Databasesettings.Settings, Mihcelle.Hwavmvid.Client",
-                    Description = string.Empty,
+                    Description = "mihcelle.hwavmvid.tunstall.application.framework.module",
                     Createdon = DateTime.Now,
                 };
 

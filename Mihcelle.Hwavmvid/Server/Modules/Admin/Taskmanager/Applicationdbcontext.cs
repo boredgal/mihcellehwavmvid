@@ -32,7 +32,7 @@ namespace Mihcelle.Hwavmvid.Framework.Modules.Taskmanager
                     Icon = "S",
                     Assemblytype = "Mihcelle.Hwavmvid.Modules.Taskmanager.Taskmanager, Mihcelle.Hwavmvid.Client",
                     Settingstype = "Mihcelle.Hwavmvid.Modules.Taskmanager.Settings, Mihcelle.Hwavmvid.Client",
-                    Description = string.Empty,
+                    Description = "mihcelle.hwavmvid.tunstall.application.framework.module",
                     Createdon = DateTime.Now,
                 };
 

@@ -1,4 +1,4 @@
-﻿@inherits ComponentBase
+﻿@inherits Modulebase
 @namespace Mihcelle.Hwavmvid.Modules.Pagesettings
 
 @using System.Linq
@@ -8,6 +8,7 @@
 @using Mihcelle.Hwavmvid.Shared.Models
 @using Microsoft.AspNetCore.Components
 @using Microsoft.AspNetCore.Components.Web
+@using Mihcelle.Hwavmvid.Client.Modules
 
 @inject IHttpClientFactory ihttpclientfactory
 @inject NavigationManager navigationmanager
@@ -91,6 +92,8 @@
 
 @code {
 
+
+    [Parameter] public Moduleservice<Modulepreferences> Moduleparams { get; set; }
 
     public List<Applicationpage> apppages { get; set; } = new List<Applicationpage>();
     public string newpagename { get; set; } = string.Empty;

@@ -1,4 +1,4 @@
-﻿@inherits ComponentBase
+﻿@inherits Modulebase
 @namespace Mihcelle.Hwavmvid.Modules.Databasesettings
 
 @inject IHttpClientFactory ihttpclientfactory
@@ -6,6 +6,7 @@
 
 @using Mihcelle.Hwavmvid.Client.Pages
 @using Mihcelle.Hwavmvid.Shared.Models
+@using Mihcelle.Hwavmvid.Client.Modules
 
 <AuthorizeView>
     <Authorized>
@@ -38,6 +39,9 @@
 
 
 @code {
+
+
+    [Parameter] public Moduleservice<Modulepreferences> Moduleparams { get; set; }
 
     public Applicationtenant tenant { get; set; }
 

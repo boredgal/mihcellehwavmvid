@@ -1,9 +1,10 @@
-﻿@inherits ComponentBase
+﻿@inherits Modulebase
 @namespace Mihcelle.Hwavmvid.Modules.Sitesettings
 
 @using Mihcelle.Hwavmvid.Fileupload
 @using Mihcelle.Hwavmvid.Shared.Models
 @using Mihcelle.Hwavmvid.Client.Pages
+@using Mihcelle.Hwavmvid.Client.Modules
 
 @inject IHttpClientFactory ihttpclientfactory
 @inject NavigationManager navigationmanager
@@ -74,6 +75,7 @@
 @code {
 
 
+    [Parameter] public Moduleservice<Modulepreferences> Moduleparams { get; set; }
 
     // Site model
     public Applicationsite? site { get; set; }
