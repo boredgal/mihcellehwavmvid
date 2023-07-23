@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http.Connections;
-using Microsoft.AspNetCore.Mvc;
 using Mihcelle.Hwavmvid.Modules.ChatHubs.Hubs;
 using Mihcelle.Hwavmvid.Modules.ChatHubs.Tasks;
-using Mihcelle.Hwavmvid.Server;
-using Mihcelle.Hwavmvid.Server.Tasks;
 
 namespace Mihcelle.Hwavmvid.Modules.ChatHubs
 {
@@ -11,7 +8,7 @@ namespace Mihcelle.Hwavmvid.Modules.ChatHubs
     public class Programstartup : Mihcelle.Hwavmvid.Programinterface
     {
 
-        public void Configure(IServiceCollection services)
+        public async Task Configure(IServiceCollection services)
         {
 
             
@@ -76,7 +73,7 @@ namespace Mihcelle.Hwavmvid.Modules.ChatHubs
             
         }
 
-        public void Configureapp(WebApplication app)
+        public async Task Configureapp(WebApplication app)
         {
             
             //app.UseHttpsRedirection();

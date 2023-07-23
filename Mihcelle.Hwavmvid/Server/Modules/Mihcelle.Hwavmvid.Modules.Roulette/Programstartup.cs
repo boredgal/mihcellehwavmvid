@@ -6,14 +6,14 @@ namespace Mihcelle.Hwavmvid.Modules.Roulette
     public class Programstartup : Mihcelle.Hwavmvid.Programinterface
     {
 
-        public void Configure(IServiceCollection services)
+        public async Task Configure(IServiceCollection services)
         {
 
             services.AddScoped<Applicationdbcontext, Applicationdbcontext>();
 
         }
 
-        public void Configureapp(WebApplication application)
+        public async Task Configureapp(WebApplication application)
         {
 
         }

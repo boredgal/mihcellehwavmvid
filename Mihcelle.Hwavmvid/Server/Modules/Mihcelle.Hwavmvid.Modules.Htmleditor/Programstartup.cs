@@ -4,14 +4,14 @@
     public class Programstartup : Mihcelle.Hwavmvid.Programinterface
     {
 
-        public void Configure(IServiceCollection services)
+        public async Task Configure(IServiceCollection services)
         {
 
             services.AddScoped<Mihcelle.Hwavmvid.Modules.Htmleditor.Applicationdbcontext, Mihcelle.Hwavmvid.Modules.Htmleditor.Applicationdbcontext>();
 
         }
 
-        public void Configureapp(WebApplication application)
+        public async Task Configureapp(WebApplication application)
         {
 
         }

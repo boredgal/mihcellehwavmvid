@@ -1,30 +1,10 @@
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Authorization;
-using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.VisualBasic;
 using Mihcelle.Hwavmvid;
-using Mihcelle.Hwavmvid.Client;
-using Mihcelle.Hwavmvid.Modules.Htmleditor;
 using Mihcelle.Hwavmvid.Server;
-using Mihcelle.Hwavmvid.Server.Data;
-using Mihcelle.Hwavmvid.Server.Tasks;
 using Mihcelle.Hwavmvid.Shared.Constants;
 using Mihcelle.Hwavmvid.Shared.Models;
-using System;
-using System.CodeDom;
-using System.Runtime.CompilerServices;
 using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -140,14 +120,15 @@ if (installed == true)
     try
     {
         var programitems = AppDomain.CurrentDomain.GetAssemblies().SelectMany(assembly => assembly.GetTypes()).Where(assemblytypes => (typeof(Programinterface)).IsAssignableFrom(assemblytypes));
+
+        programitems = programitems.Where(item => item.IsClass);
+        programitems = programitems.OrderBy(item => !string.IsNullOrEmpty(item.FullName) && item.FullName.StartsWith("Mihcelle.Hwavmvid.Programstartup")).ToList();
+        
         foreach (var item in programitems)
         {
-            if (item.IsClass)
-            {
-                Programinterface? programinterfaceinstance = (Programinterface?) Activator.CreateInstance(item);
-                if (programinterfaceinstance != null)
-                    programinterfaceinstance.Configure(builder.Services);
-            }
+            Programinterface? programinterfaceinstance = (Programinterface?) Activator.CreateInstance(item);
+            if (programinterfaceinstance != null)
+                programinterfaceinstance.Configure(builder.Services);
         }
     } 
     catch (Exception exception) { Console.WriteLine(exception.Message); }
@@ -190,100 +171,20 @@ app.MapRazorPages();
 app.MapControllers();
 app.MapFallbackToFile("index.html");
 
-if (installed == true)
+try
 {
+    var programitems = AppDomain.CurrentDomain.GetAssemblies().SelectMany(assembly => assembly.GetTypes()).Where(assemblytypes => (typeof(Programinterface)).IsAssignableFrom(assemblytypes));
+    programitems = programitems.Where(item => item.IsClass);
+    programitems = programitems.OrderBy(item => !string.IsNullOrEmpty(item.FullName) && item.FullName.StartsWith("Mihcelle.Hwavmvid.Programstartup")).ToList();
 
-    try // run modules installer migrate database and add package references to database
+    foreach (var item in programitems)
     {
-        var installeritems = AppDomain.CurrentDomain.GetAssemblies().SelectMany(assembly => assembly.GetTypes()).Where(assemblytypes => (typeof(IModuleinstallerinterface)).IsAssignableFrom(assemblytypes));
-        foreach (var item in installeritems)
-        {
-            if (item.IsClass)
-            {
-                using (var scope = app.Services.CreateScope())
-                {
-                    var moduleinstaller = (IModuleinstallerinterface?) scope.ServiceProvider.GetService(item);
-                    if (moduleinstaller != null)
-                    {                        
-                        var package = moduleinstaller.applicationmodulepackage;
-                        var dbcontext = scope.ServiceProvider.GetService<Mihcelle.Hwavmvid.Server.Data.Applicationdbcontext>();
-
-                        if (dbcontext != null)
-                        {
-                            var installedpackage = dbcontext.Applicationmodulepackages.Where(item => item.Name == package.Name).FirstOrDefault();
-                            if (installedpackage == null)
-                            {
-
-                                await moduleinstaller.Install();
-                                dbcontext.Applicationmodulepackages.Add(package);
-                                await dbcontext.SaveChangesAsync();
-
-                            }
-                        }                        
-                    }
-                }
-            }
-        }
+        Programinterface? programinterfaceinstance = (Programinterface?)Activator.CreateInstance(item);
+        if (programinterfaceinstance != null)
+            programinterfaceinstance.Configureapp(app);
     }
-    catch (Exception exception) { Console.WriteLine(exception.Message); }
-    
 }
-
-if (installed == true)
-{
-
-    try // run modules installer and add package references to database
-    {
-        var installeritems = AppDomain.CurrentDomain.GetAssemblies().SelectMany(assembly => assembly.GetTypes()).Where(assemblytypes => (typeof(IModuleinsideframeworkinstallerinterface)).IsAssignableFrom(assemblytypes));
-        foreach (var item in installeritems)
-        {
-            if (item.IsClass)
-            {
-                using (var scope = app.Services.CreateScope())
-                {
-                    var moduleinstaller = (IModuleinsideframeworkinstallerinterface?)scope.ServiceProvider.GetService(item);
-                    if (moduleinstaller != null)
-                    {
-                        var package = moduleinstaller.applicationmodulepackage;
-                        var dbcontext = scope.ServiceProvider.GetService<Mihcelle.Hwavmvid.Server.Data.Applicationdbcontext>();
-
-                        if (dbcontext != null)
-                        {
-                            var installedpackage = dbcontext.Applicationmodulepackages.Where(item => item.Name == package.Name).FirstOrDefault();
-                            if (installedpackage == null)
-                            {
-
-                                dbcontext.Applicationmodulepackages.Add(package);
-                                await dbcontext.SaveChangesAsync();
-
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    catch (Exception exception) { Console.WriteLine(exception.Message); }
-
-}
-
-if (installed == true)
-{
-    try
-    {
-        var programitems = AppDomain.CurrentDomain.GetAssemblies().SelectMany(assembly => assembly.GetTypes()).Where(assemblytypes => (typeof(Programinterface)).IsAssignableFrom(assemblytypes));
-        foreach (var item in programitems)
-        {
-            if (item.IsClass)
-            {
-                Programinterface? programinterfaceinstance = (Programinterface?)Activator.CreateInstance(item);
-                if (programinterfaceinstance != null)
-                    programinterfaceinstance.Configureapp(app);
-            }
-        }
-    }
-    catch (Exception exception) { Console.WriteLine(exception.Message); }
-}
+catch (Exception exception) { Console.WriteLine(exception.Message); }
 
 app.Run();
 

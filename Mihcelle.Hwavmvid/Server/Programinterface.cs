@@ -3,8 +3,8 @@
     public interface Programinterface
     {
 
-        void Configure(IServiceCollection services);
-        void Configureapp(WebApplication app);
+        Task Configure(IServiceCollection services);
+        Task Configureapp(WebApplication app);
 
     }
 }

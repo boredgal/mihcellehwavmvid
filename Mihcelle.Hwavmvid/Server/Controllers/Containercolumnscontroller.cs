@@ -36,6 +36,8 @@ namespace Mihcelle.Hwavmvid.Server.Controllers
                     {
                         column.Modules.Add(module);
                     }
+
+                    column.Modules = column.Modules.OrderBy(item => item.Createdon).ToList();
                 }
 
                 return orderedcolumns;
