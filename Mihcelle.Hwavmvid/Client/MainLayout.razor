@@ -1,14 +1,16 @@
 ﻿@inherits Mainlayoutbase
 @namespace Mihcelle.Hwavmvid.Client
 @inject IHttpClientFactory httpclientfactory
+
 @using Mihcelle.Hwavmvid.Shared.Models
+
 
 @if (this.framework_installed == false)
 {
     <Mihcelle.Hwavmvid.Client.Installation.Installationcomponent></Mihcelle.Hwavmvid.Client.Installation.Installationcomponent>
 }
 
-@if (this.framework_installed == true && this.applicationprovider?._contextsite != null)
+@if (this.framework_installed == true && this.applicationprovider?._contextsite != null && this._contextpages != null)
 {
 
     <div class="mihcelle-hwavmvid-container">
@@ -20,6 +22,7 @@
                     <a class="navbar-brand" href="#">
                         <img src="@(string.Concat(this.navigationmanager?.BaseUri, "images/", this.applicationprovider?._contextsite?.Brandmark))" height="72" style="background-color: slateblue;" />
                     </a>
+
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
@@ -86,6 +89,7 @@
 
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    
                                     @if (this.applicationprovider?._contextauth?.User?.Identity?.IsAuthenticated ?? false)
                                     {
                                         <span>☑@this.applicationprovider?._contextauth.User.Identity.Name</span>
@@ -94,11 +98,14 @@
                                     {
                                         <span>Account / Login</span>
                                     }
+
                                 </a>
                                 <ul class="dropdown-menu" style="left: auto !important; right: 0;">
                                     <li>
                                         <div class="p-2 p-sm-4" style="min-width: 410px;">
+
                                             <Accountdropdowncomponent></Accountdropdowncomponent>
+
                                         </div>
                                     </li>
                                 </ul>
@@ -122,7 +129,7 @@
 @code {
 
 
-    // deprecated
+    // deprecated implementation
     private async Task Getisinstalled()
     {
 
@@ -130,8 +137,8 @@
         {
             var client = this.httpclientfactory.CreateClient("Mihcelle.Hwavmvid.ServerApi.Unauthenticated");
             var response = await client.GetAsync("api/installation/");
-            var stng = await response.Content.ReadAsStringAsync();
-            this.framework_installed = Convert.ToBoolean(stng);
+            var responsestring = await response.Content.ReadAsStringAsync();
+            this.framework_installed = Convert.ToBoolean(responsestring);
         }
         catch (Exception exception)
         {

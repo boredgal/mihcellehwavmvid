@@ -1,14 +1,12 @@
 ﻿using Microsoft.AspNetCore.Components.Authorization;
-using System;
 using System.Net.Http.Json;
 using System.Security.Claims;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace Mihcelle.Hwavmvid.Client
 {
     public class Applicationauthenticationstateprovider : AuthenticationStateProvider
     {
+
 
         private IHttpClientFactory _httpclientfactory { get; set; }
         public Applicationauthenticationstateprovider(IHttpClientFactory httpclientfactory)

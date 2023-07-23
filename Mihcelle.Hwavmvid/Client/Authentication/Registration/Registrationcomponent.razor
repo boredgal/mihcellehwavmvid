@@ -4,6 +4,7 @@
 @inject NavigationManager navigationmanager
 @inject IHttpClientFactory ihttpclientfactory
 
+
 <div class="registration">
 
     <div class="input-group mb-3">
@@ -25,6 +26,7 @@
 
 </div>
 
+
 @code {
 
 
@@ -32,6 +34,7 @@
 
     protected async Task Registeruser()
     {
+
         try
         {
             var client = this.ihttpclientfactory.CreateClient("Mihcelle.Hwavmvid.ServerApi.Unauthenticated");

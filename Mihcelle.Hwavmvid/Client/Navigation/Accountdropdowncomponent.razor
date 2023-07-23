@@ -10,11 +10,14 @@
 @using Microsoft.AspNetCore.Http
 @using Mihcelle.Hwavmvid.Client.Authentication
 
+
 <AuthorizeView>
     <Authorized>
+
         <div class="py-3" style="max-width: 410px;">
             <Logoutcomponent></Logoutcomponent>
         </div>
+
     </Authorized>
     <NotAuthorized>
 
@@ -32,6 +35,5 @@
 </AuthorizeView>
 
 @code {
-
 
 }

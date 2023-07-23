@@ -1,14 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
-using System.Net.NetworkInformation;
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.AspNetCore.Authorization;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
-using Microsoft.AspNetCore.Http;
-using Mihcelle.Hwavmvid.Client.Authentication;
-using Microsoft.Extensions.Configuration;
-using Mihcelle.Hwavmvid.Client.Installation;
 using System.Text.Json;
 using Mihcelle.Hwavmvid.Cookies;
 using Mihcelle.Hwavmvid.Shared.Models;
@@ -16,7 +7,7 @@ using System.Net.Http.Json;
 
 namespace Mihcelle.Hwavmvid.Client
 {
-    public class Mainlayoutbase : LayoutComponentBase, IDisposable
+    public class Mainlayoutbase : LayoutComponentBase
     {
 
 
@@ -38,6 +29,7 @@ namespace Mihcelle.Hwavmvid.Client
             this.framework_installed = !string.IsNullOrEmpty(Configuration?["installation:createdon"]);
             if (this.framework_installed == true)
             {
+
                 this.applicationprovider._contextauth = await this.authenticationstateprovider.GetAuthenticationStateAsync();
 
                 var client = this.ihttpclientfactory?.CreateClient("Mihcelle.Hwavmvid.ServerApi.Unauthenticated");
@@ -93,10 +85,6 @@ namespace Mihcelle.Hwavmvid.Client
             });
         }
 
-        public void Dispose()
-        {
-
-        }
 
     }
 }

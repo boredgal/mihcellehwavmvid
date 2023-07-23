@@ -1,16 +1,10 @@
-﻿using System;
-using System.Text;
-using System.Linq;
-using System.Collections.Generic;
+﻿using System.Text;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.AspNetCore.SignalR.Client;
-using Microsoft.Extensions.DependencyInjection;
 using Mihcelle.Hwavmvid.Shared.Models;
-using System.Threading.Tasks;
 using Microsoft.JSInterop;
-using Mihcelle.Hwavmvid.Cookies;
 using System.Net.Http.Json;
 using Mihcelle.Hwavmvid.Alerts;
 
@@ -72,9 +66,10 @@ namespace Mihcelle.Hwavmvid.Client
         }
 
 
-        // initialize javascript interop //
+        // initialize javascript interop and package items drag and drop //
         public async Task Initpackagemoduledraganddrop()
         {
+
 
             if (this.appjavascriptfile == null)
             {

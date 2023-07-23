@@ -1,6 +1,7 @@
 ﻿@inherits Mainlayoutbase
 @namespace Mihcelle.Hwavmvid.Client.Installation
 
+
 <div class="container p-2 p-sm-5">
     
     <div class="row align-items-center">
@@ -97,6 +98,7 @@
 
     protected async Task Install()
     {
+
         try
         {
             var client = this.ihttpclientfactory.CreateClient("Mihcelle.Hwavmvid.ServerApi.Unauthenticated");

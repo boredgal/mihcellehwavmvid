@@ -1,14 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
-using Mihcelle.Hwavmvid.Client.Modules.Admin;
-using Mihcelle.Hwavmvid.Client.Pages;
 using Mihcelle.Hwavmvid.Modal;
 using Mihcelle.Hwavmvid.Shared.Constants;
-using Mihcelle.Hwavmvid.Shared.Models;
-using System.Net.Http.Json;
-using System.Reflection;
-using System.Runtime.CompilerServices;
 
 namespace Mihcelle.Hwavmvid.Client.Modules
 {
@@ -27,12 +19,15 @@ namespace Mihcelle.Hwavmvid.Client.Modules
         [Parameter] public string Containertype { get; set; }
         [Parameter] public Type Componentsettingstype { get; set; }
 
+        public HttpClient httpclient { get; set; }
         protected Moduleservice<Modulepreferences> moduleservice { get; set; }
         protected Dictionary<string, object> servpara { get; set; }
 
         protected override Task OnInitializedAsync()
         {
             
+            this.httpclient = this.ihttpclientfactory?.CreateClient("Mihcelle.Hwavmvid.ServerApi.Unauthenticated");
+
             Modulepreferences modulepreferences = new Modulepreferences();
             this.moduleservice = new Moduleservice<Modulepreferences>();
             this.moduleservice.Preferences = new Modulepreferences();
@@ -55,8 +50,7 @@ namespace Mihcelle.Hwavmvid.Client.Modules
             if (this.Containertype == Applicationcontainertype.Fullwidth)
                 targetcontainertype = "container";
 
-            var client = this.ihttpclientfactory?.CreateClient("Mihcelle.Hwavmvid.ServerApi.Unauthenticated");
-            await client.GetAsync(string.Concat("api/container/", this.applicationprovider._contextcontainer.Id, "/", targetcontainertype));
+            await this.httpclient.GetAsync(string.Concat("api/container/", this.applicationprovider._contextcontainer.Id, "/", targetcontainertype));
             this.navigationmanager.NavigateTo(this.navigationmanager.Uri, true);
         }
 
@@ -73,8 +67,7 @@ namespace Mihcelle.Hwavmvid.Client.Modules
 
         public async Task Deletemodule(string moduleid)
         {
-            var client = this.ihttpclientfactory?.CreateClient("Mihcelle.Hwavmvid.ServerApi.Unauthenticated");
-            await client.DeleteAsync(string.Concat("api/module/", moduleid));
+            await this.httpclient.DeleteAsync(string.Concat("api/module/", moduleid));
             this.navigationmanager.NavigateTo(this.navigationmanager.Uri, true);
         }
 
