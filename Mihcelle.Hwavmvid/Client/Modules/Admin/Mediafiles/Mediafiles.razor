@@ -1,12 +1,11 @@
 ﻿@inherits Modulebase
 @namespace Mihcelle.Hwavmvid.Modules.Mediafiles
-
 @inject Applicationprovider applicationprovider
 
 @using Mihcelle.Hwavmvid.Client.Pages
 @using Mihcelle.Hwavmvid.Shared.Models
 @using Mihcelle.Hwavmvid.Client.Modules
-
+@using Mihcelle.Hwavmvid.Fileupload
 
 <AuthorizeView>
     <Authorized>
@@ -17,9 +16,7 @@
                 <div class="col-lg-12">
                     <div class="p-1 bg-light">
 
-
-                        <strong>no media files found yet</strong>
-
+                        <FileUploadComponent ApiUrl="api/mediafile/images" InputFileId="@this.Mediafileinputfieldid" DropzoneElementId="@this.Mediafiledropzoneelementid"></FileUploadComponent>
 
                     </div>
                 </div>
@@ -39,6 +36,8 @@
 
     [Parameter] public Moduleservice<Modulepreferences> Moduleparams { get; set; }
 
+    public string Mediafiledropzoneelementid { get; set; } = "mediafile_dropzone_element_id";
+    public string Mediafileinputfieldid { get; set; } = "mediafile_input_field_id";
 
     protected override async Task OnInitializedAsync()
     {

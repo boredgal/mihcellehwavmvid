@@ -114,4 +114,8 @@
 		
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="wwwroot\medialibrary\" />
+	</ItemGroup>
+
 </Project>
