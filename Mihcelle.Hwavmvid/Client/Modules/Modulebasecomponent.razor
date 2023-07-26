@@ -16,15 +16,11 @@
 
             <Adminbase _adminmodalelementid="@adminmodalelementid" _componenttype="@this.Componentsettingstype"></Adminbase>
 
-            <button @onclick="async() => await Openmodulesettings()" type="button" class="btn btn-sm btn-primary px-2 py-2 rounded-0" style="position: absolute; top: 4px; right: 278px;">
+            <button @onclick="async() => await Openmodulesettings()" type="button" class="btn btn-sm btn-primary px-2 py-2 rounded-0" style="position: absolute; top: 5px; right: 132px;">
                 <small class="py-2">Open module settings</small>
-            </button>            
-
-            <button @onclick="async() => await Setcontainertype()" type="button" class="btn btn-sm btn-primary px-2 py-2 rounded-0" style="position: absolute; top: 4px; right: 130px;">
-                <small class="py-2">Update container width</small>
             </button>
 
-            <button @onclick="async() => await Deletemodule(this.Moduleid)" @onclick:stopPropagation=true type="button" class="btn btn-sm btn-primary px-2 py-2 rounded-0" style="position: absolute; top: 4px; right: 4px;">
+            <button @onclick="async() => await Deletemodule(this.Moduleid)" @onclick:stopPropagation=true type="button" class="btn btn-sm btn-primary px-2 py-2 rounded-0" style="position: absolute; top: 5px; right: 5px;">
                 <small class="py-2">Delete module item</small>
             </button>
 

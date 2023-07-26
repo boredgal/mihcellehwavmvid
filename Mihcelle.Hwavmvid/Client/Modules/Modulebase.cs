@@ -39,21 +39,6 @@ namespace Mihcelle.Hwavmvid.Client.Modules
             return base.OnInitializedAsync();
         }
 
-        public async Task Setcontainertype()
-        {
-
-            string targetcontainertype = string.Empty;
-
-            if (this.Containertype == Applicationcontainertype.Boxed)
-                targetcontainertype = "container-fluid";
-
-            if (this.Containertype == Applicationcontainertype.Fullwidth)
-                targetcontainertype = "container";
-
-            await this.httpclient.GetAsync(string.Concat("api/container/", this.applicationprovider._contextcontainer.Id, "/", targetcontainertype));
-            this.navigationmanager.NavigateTo(this.navigationmanager.Uri, true);
-        }
-
         public string adminmodalelementid { get; set; } = "admin_modal_element_id_for_settings";
         public async Task Openmodulesettings()
         {
