@@ -3,7 +3,7 @@ using Mihcelle.Hwavmvid.Server;
 using Mihcelle.Hwavmvid.Shared.Constants;
 using Mihcelle.Hwavmvid.Shared.Models;
 
-namespace Mihcelle.Hwavmvid.Framework.Modules.Sitesettings
+namespace Mihcelle.Hwavmvid.Framework.Modules.Mediafiles
 {
 
     public class Applicationdbcontext : IModuleinsideframeworkinstallerinterface
@@ -28,11 +28,11 @@ namespace Mihcelle.Hwavmvid.Framework.Modules.Sitesettings
             {
                 var package = new Applicationmodulepackage()
                 {
-                    Name = "Sitesettings",
+                    Name = "Mediafiles",
                     Version = "1.0.0",
-                    Icon = "S",
-                    Assemblytype = "Mihcelle.Hwavmvid.Modules.Sitesettings.Sitesettings, Mihcelle.Hwavmvid.Client",
-                    Settingstype = "Mihcelle.Hwavmvid.Modules.Sitesettings.Settings, Mihcelle.Hwavmvid.Client",
+                    Icon = "A",
+                    Assemblytype = "Mihcelle.Hwavmvid.Modules.Mediafiles.Mediafiles, Mihcelle.Hwavmvid.Client",
+                    Settingstype = "Mihcelle.Hwavmvid.Modules.Mediafiles.Settings, Mihcelle.Hwavmvid.Client",
                     Description = Applicationmoduletype.Applicationmoduleframework,
                     Createdon = DateTime.Now,
                 };

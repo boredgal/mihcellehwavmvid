@@ -1,12 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Microsoft.EntityFrameworkCore.Migrations.Operations;
-using Microsoft.EntityFrameworkCore.Migrations.Operations.Builders;
-using Microsoft.EntityFrameworkCore.Storage;
 using Mihcelle.Hwavmvid.Server.Data;
-using Mihcelle.Hwavmvid.Shared.Models;
 
 namespace Mihcelle.Hwavmvid.Server.Migrations
 {
@@ -168,11 +163,32 @@ namespace Mihcelle.Hwavmvid.Server.Migrations
                      dbtable.PrimaryKey("pk_application_moduleid", item => item.Id);
                      dbtable.ForeignKey("fk_application_modulesettings_moduleid", item => item.Moduleid, "Applicationmodules", "Id");
                  });
+
+            migrationbuilder.CreateTable(
+                 name: "Applicationmediafiles",
+                 columns: dbtable => new
+                 {
+                     Id = dbtable.Column<string>(type: "nvarchar(410)", nullable: false, unicode: null),
+                     Siteid = dbtable.Column<string>(type: "nvarchar(410)", nullable: false, unicode: null),
+                     Filename = dbtable.Column<string>(type: "nvarchar", nullable: false, unicode: null, maxLength: 800),
+                     Fileextension = dbtable.Column<string>(type: "nvarchar", nullable: false, unicode: null, maxLength: 800),
+                     Filesize = dbtable.Column<string>(type: "nvarchar", nullable: false, unicode: null, maxLength: 800),
+                     Filewidth = dbtable.Column<int>(type: "int", nullable: false, unicode: null),
+                     Fileheight = dbtable.Column<int>(type: "int", nullable: false, unicode: null),
+                     Createdon = dbtable.Column<DateTime>(type: "date", nullable: false, unicode: null),
+                 },
+                 constraints: dbtable =>
+                 {
+                     dbtable.PrimaryKey("pk_application_mediafileid", item => item.Id);
+                     dbtable.ForeignKey("fk_application_mediafile_siteid", item => item.Siteid, "Applicationsites", "Id");
+                 });
         }
 
         protected override void Down(MigrationBuilder migrationbuilder)
         {
 
+            migrationbuilder.DropColumn("Applicationmediafiles", "Applicationmediafiles");
+            migrationbuilder.DropColumn("Applicationmodulesettings", "Applicationmodulesettings");
             migrationbuilder.DropColumn("Applicationmodules", "Applicationmodules");
             migrationbuilder.DropColumn("Applicationmodulepackages", "Applicationmodulepackages");
             migrationbuilder.DropColumn("Applicationcontainercolumns", "Applicationcontainercolumns");

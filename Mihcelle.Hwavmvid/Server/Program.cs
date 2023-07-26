@@ -73,12 +73,6 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddSingleton<IHostedService, Mihcelle.Hwavmvid.Server.Tasks.Hostedservicebase>();
 
-// mihcelle hwavmvid
-builder.Services.AddScoped<Mihcelle.Hwavmvid.Framework.Modules.Databasesettings.Applicationdbcontext, Mihcelle.Hwavmvid.Framework.Modules.Databasesettings.Applicationdbcontext>();
-builder.Services.AddScoped<Mihcelle.Hwavmvid.Framework.Modules.Pagesettings.Applicationdbcontext, Mihcelle.Hwavmvid.Framework.Modules.Pagesettings.Applicationdbcontext>();
-builder.Services.AddScoped<Mihcelle.Hwavmvid.Framework.Modules.Sitesettings.Applicationdbcontext, Mihcelle.Hwavmvid.Framework.Modules.Sitesettings.Applicationdbcontext>();
-builder.Services.AddScoped<Mihcelle.Hwavmvid.Framework.Modules.Taskmanager.Applicationdbcontext, Mihcelle.Hwavmvid.Framework.Modules.Taskmanager.Applicationdbcontext>();
-
 
 builder.Services.AddCors(option =>
 {

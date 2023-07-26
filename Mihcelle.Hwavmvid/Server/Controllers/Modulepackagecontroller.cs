@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Mihcelle.Hwavmvid.Modules.Htmleditor;
+using Mihcelle.Hwavmvid.Shared.Constants;
 using Mihcelle.Hwavmvid.Shared.Models;
 
 namespace Mihcelle.Hwavmvid.Server.Controllers
@@ -14,8 +15,6 @@ namespace Mihcelle.Hwavmvid.Server.Controllers
         public Applicationdbcontext applicationdbcontext { get; set; }
         public IServiceProvider servicescopefactory { get; set; }
 
-        private const string appframeworkmoduleinsideidentifier = "mihcelle.hwavmvid.tunstall.application.framework.module";
-
         public Modulepackagecontroller(Applicationdbcontext applicationdbcontext, IServiceProvider servicescopefactory)
         {
             this.applicationdbcontext = applicationdbcontext;
@@ -26,7 +25,7 @@ namespace Mihcelle.Hwavmvid.Server.Controllers
         [HttpGet("packageextensions")]
         public async Task<List<Applicationmodulepackage>> packageextensions()
         {
-            var items = await this.applicationdbcontext.Applicationmodulepackages.Where(item => !item.Description.StartsWith(appframeworkmoduleinsideidentifier)).ToListAsync();
+            var items = await this.applicationdbcontext.Applicationmodulepackages.Where(item => !item.Description.StartsWith(Applicationmoduletype.Applicationmoduleframework)).ToListAsync();
             return items.OrderBy(item => item.Name).ToList();
         }
 
@@ -35,7 +34,7 @@ namespace Mihcelle.Hwavmvid.Server.Controllers
         public async Task<List<Applicationmodulepackage>?> frameworkpackages()
         {
 
-            var items = await this.applicationdbcontext.Applicationmodulepackages.Where(item => item.Description.StartsWith(appframeworkmoduleinsideidentifier)).ToListAsync();
+            var items = await this.applicationdbcontext.Applicationmodulepackages.Where(item => item.Description.StartsWith(Applicationmoduletype.Applicationmoduleframework)).ToListAsync();
             return items.OrderBy(item => item.Name).ToList();
 
         }

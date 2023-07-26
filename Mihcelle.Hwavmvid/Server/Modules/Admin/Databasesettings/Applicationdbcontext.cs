@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Mihcelle.Hwavmvid.Server;
+using Mihcelle.Hwavmvid.Shared.Constants;
 using Mihcelle.Hwavmvid.Shared.Models;
 
 namespace Mihcelle.Hwavmvid.Framework.Modules.Databasesettings
@@ -32,7 +33,7 @@ namespace Mihcelle.Hwavmvid.Framework.Modules.Databasesettings
                     Icon = "W",
                     Assemblytype = "Mihcelle.Hwavmvid.Modules.Databasesettings.Databasesettings, Mihcelle.Hwavmvid.Client",
                     Settingstype = "Mihcelle.Hwavmvid.Modules.Databasesettings.Settings, Mihcelle.Hwavmvid.Client",
-                    Description = "mihcelle.hwavmvid.tunstall.application.framework.module",
+                    Description = Applicationmoduletype.Applicationmoduleframework,
                     Createdon = DateTime.Now,
                 };
 

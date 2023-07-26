@@ -19,6 +19,8 @@ namespace Mihcelle.Hwavmvid.Server.Data
         public DbSet<Applicationmodulepackage> Applicationmodulepackages { get; set; }
         public DbSet<Applicationmodule> Applicationmodules { get; set; }
         public DbSet<Applicationmodulesettings> Applicationmodulesettings { get; set; }
+        public DbSet<Applicationmediafile> Applicationmediafiles { get; set; }
+
         public Applicationdbcontext(DbContextOptions options) : base (options)
         {
 

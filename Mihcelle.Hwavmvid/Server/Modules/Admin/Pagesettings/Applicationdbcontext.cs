@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Mihcelle.Hwavmvid.Server;
+using Mihcelle.Hwavmvid.Shared.Constants;
 using Mihcelle.Hwavmvid.Shared.Models;
 
 namespace Mihcelle.Hwavmvid.Framework.Modules.Pagesettings
@@ -29,10 +30,10 @@ namespace Mihcelle.Hwavmvid.Framework.Modules.Pagesettings
                 {
                     Name = "Pagesettings",
                     Version = "1.0.0",
-                    Icon = "A",
+                    Icon = "S",
                     Assemblytype = "Mihcelle.Hwavmvid.Modules.Pagesettings.Pagesettings, Mihcelle.Hwavmvid.Client",
                     Settingstype = "Mihcelle.Hwavmvid.Modules.Pagesettings.Settings, Mihcelle.Hwavmvid.Client",
-                    Description = "mihcelle.hwavmvid.tunstall.application.framework.module",
+                    Description = Applicationmoduletype.Applicationmoduleframework,
                     Createdon = DateTime.Now,
                 };
 

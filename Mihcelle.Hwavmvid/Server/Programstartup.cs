@@ -2,12 +2,17 @@
 
 namespace Mihcelle.Hwavmvid
 {
+
     public class Programstartup : Mihcelle.Hwavmvid.Programinterface
     {
 
         public async Task Configure(IServiceCollection services)
         {
-
+            services.AddScoped<Mihcelle.Hwavmvid.Framework.Modules.Databasesettings.Applicationdbcontext, Mihcelle.Hwavmvid.Framework.Modules.Databasesettings.Applicationdbcontext>();
+            services.AddScoped<Mihcelle.Hwavmvid.Framework.Modules.Pagesettings.Applicationdbcontext, Mihcelle.Hwavmvid.Framework.Modules.Pagesettings.Applicationdbcontext>();
+            services.AddScoped<Mihcelle.Hwavmvid.Framework.Modules.Sitesettings.Applicationdbcontext, Mihcelle.Hwavmvid.Framework.Modules.Sitesettings.Applicationdbcontext>();
+            services.AddScoped<Mihcelle.Hwavmvid.Framework.Modules.Taskmanager.Applicationdbcontext, Mihcelle.Hwavmvid.Framework.Modules.Taskmanager.Applicationdbcontext>();
+            services.AddScoped<Mihcelle.Hwavmvid.Framework.Modules.Mediafiles.Applicationdbcontext, Mihcelle.Hwavmvid.Framework.Modules.Mediafiles.Applicationdbcontext>();
         }
 
         public async Task Configureapp(WebApplication application)
@@ -15,7 +20,6 @@ namespace Mihcelle.Hwavmvid
 
             try // run modules installer migrate database and add package references to database
             {
-
 
                 var installeritems = AppDomain.CurrentDomain.GetAssemblies().SelectMany(assembly => assembly.GetTypes()).Where(assemblytypes => (typeof(IModuleinstallerinterface)).IsAssignableFrom(assemblytypes));
                 foreach (var item in installeritems)
