@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Mihcelle.Hwavmvid.Pager;
 using Mihcelle.Hwavmvid.Server.Data;
 using Mihcelle.Hwavmvid.Shared.Models;
 
@@ -19,6 +20,23 @@ namespace Mihcelle.Hwavmvid.Server.Controllers
         {
             this.iwebhostenvironment = iwebhostenvironment;
             this.applicationdbcontext = applicationdbcontext;
+        }
+
+        [AllowAnonymous]
+        [HttpGet("{contextpage}/{itemsperpage}/{siteid}")]
+        public async Task<Pagerapiitem<Applicationmediafile>> Get(int contextpage, int itemsperpage, string siteid)
+        {
+            var totalitems = this.applicationdbcontext.Applicationmediafiles.Where(item => item.Siteid == siteid);
+            var items = await totalitems.Skip((contextpage - 1) * itemsperpage).Take(itemsperpage).ToListAsync();
+            int pagesTotal = Convert.ToInt32(Math.Ceiling(totalitems.Count() / Convert.ToDouble(itemsperpage)));
+
+            var apiitem = new Pagerapiitem<Applicationmediafile>()
+            {
+                Items = items,
+                Pages = pagesTotal
+            };
+
+            return apiitem;
         }
 
         [Authorize]
